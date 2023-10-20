@@ -22,6 +22,10 @@ void	PhoneBook::run(void)
 	std::cout << "You can ADD, SEARCH or EXIT." << std::endl;
 	std::cout << "Write what you want to do: ";
 	std::getline(std::cin, input);
+	if(std::cin.eof()) {
+		std::cout << std::endl << "You typed EOF, that's all folks. Say goodbye to your contacts." << std::endl;
+		exit(1);
+	}
 	std::cout << std::endl;
 	if (input == "ADD") {
 		add_contact_();
