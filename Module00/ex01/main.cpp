@@ -1,8 +1,12 @@
+#include <thread>
+#include <chrono>
 #include "PhoneBook.hpp"
 
-int main (void) {
+int main () {
 	PhoneBook	phonebook;
 
-	phonebook.run();
+	while (true) {
+		phonebook.run();
+	}
 	return 0;
 }
