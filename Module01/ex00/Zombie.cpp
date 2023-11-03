@@ -6,13 +6,14 @@
 /*   By: malaakso <malaakso@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 10:46:53 by malaakso          #+#    #+#             */
-/*   Updated: 2023/11/03 10:50:13 by malaakso         ###   ########.fr       */
+/*   Updated: 2023/11/03 11:00:09 by malaakso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Zombie.hpp"
 
 Zombie::Zombie(std::string zombie_name) {
+	this->name = zombie_name;
 }
 
 Zombie::~Zombie(void) {
