@@ -8,7 +8,7 @@ SRC		=	main.cpp \
 			newZombie.cpp \
 			randomChump.cpp
 
-OBJ		=	$(patsubst %.c, %.o, $(SRC))
+OBJ		=	$(patsubst %.cpp, %.o, $(SRC))
 
 .PHONY: all
 all: $(NAME) Makefile
