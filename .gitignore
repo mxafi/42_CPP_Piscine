@@ -1,4 +1,7 @@
 .vscode
 *.dSYM
+a.out
+*.o
 megaphone
 phonebook
+zombie
