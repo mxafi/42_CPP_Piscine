@@ -6,7 +6,6 @@ NAME	=	horde
 SRC		=	main.cpp \
 			Zombie.cpp \
 			zombieHorde.cpp
-			
 
 OBJ		=	$(patsubst %.cpp, %.o, $(SRC))
 
