@@ -3,7 +3,8 @@ CFLAGS	=	-Wall -Wextra -Werror
 DFLAGS	=	-g -std=c++98
 NAME	=	harl
 
-SRC		=	main.cpp
+SRC		=	main.cpp \
+			Harl.cpp
 
 OBJ		=	$(patsubst %.cpp, %.o, $(SRC))
 
