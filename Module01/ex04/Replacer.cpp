@@ -6,7 +6,7 @@
 /*   By: malaakso <malaakso@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 11:00:54 by malaakso          #+#    #+#             */
-/*   Updated: 2023/11/04 13:34:24 by malaakso         ###   ########.fr       */
+/*   Updated: 2023/11/04 13:41:56 by malaakso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void Replacer::setS2(char* s2) {
 int Replacer::run() {
 
 	if (this->s1_.empty() || this->s2_.empty()) {
-		std::cout << "The string cannot be empty." << std::endl;
+		std::cout << "Empty strings are not allowed." << std::endl;
 		return FAILURE;
 	}
 
