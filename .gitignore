@@ -1,4 +1,5 @@
 .vscode
+.trunk
 *.dSYM
 a.out
 *.o
@@ -10,4 +11,3 @@ brain
 violence
 replacer
 harl
-
