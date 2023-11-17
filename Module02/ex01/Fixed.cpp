@@ -1,5 +1,7 @@
 #include "Fixed.hpp"
 
+// constructors and destructor
+
 Fixed::Fixed(void)
 {
 	std::cout << "Default constructor called" << std::endl;
@@ -12,6 +14,23 @@ Fixed::Fixed(const Fixed &original)
 	this->fixedPointNumberValue_ = original.fixedPointNumberValue_;
 }
 
+Fixed::Fixed(const int intN)
+{
+	this->fixedPointNumberValue_ = int(intN * float(1 << this->numberOfFractionalBits_));
+}
+
+Fixed::Fixed(const float floatN)
+{
+	this->fixedPointNumberValue_ = int(floatN * float(1 << this->numberOfFractionalBits_) + (floatN >= 0 ? 0.5 : -0.5));
+}
+
+Fixed::~Fixed(void)
+{
+	std::cout << "Destructor called" << std::endl;
+}
+
+// overload member functions
+
 Fixed &Fixed::operator=(const Fixed &original)
 {
 	std::cout << "Copy assignment operator called" << std::endl;
@@ -22,10 +41,12 @@ Fixed &Fixed::operator=(const Fixed &original)
 	return *this;
 }
 
-Fixed::~Fixed(void)
+std::ostream &operator<<(std::ostream &out, const Fixed &fixedNumber)
 {
-	std::cout << "Destructor called" << std::endl;
+	return (out);
 }
+
+// normal member functions
 
 int Fixed::getRawBits(void) const
 {
@@ -37,4 +58,14 @@ void Fixed::setRawBits(int const raw)
 {
 	std::cout << "setRawBits member function called" << std::endl;
 	this->fixedPointNumberValue_ = raw;
+}
+
+float Fixed::toFloat(void) const
+{
+	return (float(this->fixedPointNumberValue_) / float(1 << this->numberOfFractionalBits_));
+}
+
+int Fixed::toInt(void) const
+{
+	return (int(this->toFloat() + 0.5));
 }

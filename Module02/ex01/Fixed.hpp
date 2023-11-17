@@ -22,7 +22,7 @@ public:
 	// const int constructor, fract bits 8 and converts to fixed point
 	Fixed(const int intN);
 	// const float constructor, frac bits 8 and converts to fixed point
-	Fixed(const float fpN);
+	Fixed(const float floatN);
 	// converts the fixed-point value to a floating-point value
 	float toFloat(void) const;
 	// converts the fixed-point value to an integer value

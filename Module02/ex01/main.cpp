@@ -3,13 +3,13 @@
 
 int main(void)
 {
-  Fixed a;
-  a.setRawBits(2);
-  Fixed b(a);
-  Fixed c;
-  c = b;
+  Fixed a(55.50f);
+
+  float testOutFloat = a.toFloat();
+  int   testOutInt = a.toInt();
+
   std::cout << a.getRawBits() << std::endl;
-  std::cout << b.getRawBits() << std::endl;
-  std::cout << c.getRawBits() << std::endl;
+  std::cout << testOutFloat << std::endl;
+  std::cout << testOutInt << std::endl;
   return 0;
 }
