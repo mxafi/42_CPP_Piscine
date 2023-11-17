@@ -11,7 +11,7 @@ public:
 	Fixed(void);
 	// copy constructor
 	Fixed(const Fixed &original);
-	// copy assignment operator overload (could just call the copy constructor)
+	// copy assignment operator overload
 	Fixed &operator=(const Fixed &original);
 	// destructor
 	~Fixed(void);
