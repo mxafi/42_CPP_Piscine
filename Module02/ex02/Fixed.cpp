@@ -17,13 +17,13 @@ Fixed::Fixed(const Fixed &original)
 Fixed::Fixed(const int intN)
 {
 	std::cout << "Int constructor called" << std::endl;
-	this->fixedPointNumberValue_ = int(intN * float(1 << this->numberOfFractionalBits_));
+	this->fixedPointNumberValue_ = static_cast<int>(intN * static_cast<float>(1 << this->numberOfFractionalBits_));
 }
 
 Fixed::Fixed(const float floatN)
 {
 	std::cout << "Float constructor called" << std::endl;
-	this->fixedPointNumberValue_ = int(floatN * float(1 << this->numberOfFractionalBits_) + (floatN >= 0 ? 0.5 : -0.5));
+	this->fixedPointNumberValue_ = static_cast<int>(floatN * static_cast<float>(1 << this->numberOfFractionalBits_) + (floatN >= 0 ? 0.5 : -0.5));
 }
 
 Fixed::~Fixed(void)
@@ -44,49 +44,100 @@ Fixed &Fixed::operator=(const Fixed &original)
 std::ostream &operator<<(std::ostream &out, const Fixed &fixedNumber)
 {
 	out << fixedNumber.toFloat();
-	return (out);
+	return out;
 }
 
 bool Fixed::operator>(const Fixed &right)
 {
 	if (this->fixedPointNumberValue_ > right.fixedPointNumberValue_)
-		return (true);
-	return (false);
+		return true;
+	return false;
 }
 
 bool Fixed::operator<(const Fixed &right)
 {
 	if (this->fixedPointNumberValue_ < right.fixedPointNumberValue_)
-		return (true);
-	return (false);
+		return true;
+	return false;
 }
 
 bool Fixed::operator>=(const Fixed &right)
 {
 	if (this->fixedPointNumberValue_ >= right.fixedPointNumberValue_)
-		return (true);
-	return (false);
+		return true;
+	return false;
 }
 
 bool Fixed::operator<=(const Fixed &right)
 {
 	if (this->fixedPointNumberValue_ <= right.fixedPointNumberValue_)
-		return (true);
-	return (false);
+		return true;
+	return false;
 }
 
 bool Fixed::operator==(const Fixed &right)
 {
 	if (this->fixedPointNumberValue_ == right.fixedPointNumberValue_)
-		return (true);
-	return (false);
+		return true;
+	return false;
 }
 
 bool Fixed::operator!=(const Fixed &right)
 {
 	if (this->fixedPointNumberValue_ != right.fixedPointNumberValue_)
-		return (true);
-	return (false);
+		return true;
+	return false;
+}
+
+Fixed Fixed::operator+(const Fixed &right)
+{
+	Fixed ret;
+	ret.fixedPointNumberValue_ = this->fixedPointNumberValue_ + right.fixedPointNumberValue_;
+	return ret;
+}
+
+Fixed Fixed::operator-(const Fixed &right)
+{
+	Fixed ret;
+	ret.fixedPointNumberValue_ = this->fixedPointNumberValue_ - right.fixedPointNumberValue_;
+	return ret;
+}
+
+Fixed Fixed::operator*(const Fixed &right)
+{
+	Fixed ret;
+	ret.fixedPointNumberValue_ = static_cast<int>((static_cast<int64_t>(this->fixedPointNumberValue_) * static_cast<int64_t>(right.fixedPointNumberValue_)) >> ret.numberOfFractionalBits_);
+	return ret;
+}
+
+Fixed Fixed::operator/(const Fixed &right)
+{
+	Fixed ret;
+	ret.fixedPointNumberValue_ = static_cast<int>((static_cast<int64_t>(this->fixedPointNumberValue_) << ret.numberOfFractionalBits_) / static_cast<int64_t>(right.fixedPointNumberValue_));
+	return ret;
+}
+
+Fixed &Fixed::operator++(void)
+{
+	this->fixedPointNumberValue_ += this->fixedPointNumberValue_;
+	return *this;
+}
+
+Fixed Fixed::operator++(int)
+{
+	Fixed ret;
+
+	return ret;
+}
+
+Fixed &Fixed::operator--(void)
+{
+	this->fixedPointNumberValue_ -= this->fixedPointNumberValue_;
+	return *this;
+}
+
+Fixed Fixed::operator--(int)
+{
 }
 
 // normal member functions
@@ -105,10 +156,10 @@ void Fixed::setRawBits(int const raw)
 
 float Fixed::toFloat(void) const
 {
-	return (float(this->fixedPointNumberValue_) / float(1 << this->numberOfFractionalBits_));
+	return (static_cast<float>(this->fixedPointNumberValue_) / static_cast<float>(1 << this->numberOfFractionalBits_));
 }
 
 int Fixed::toInt(void) const
 {
-	return (int(this->toFloat() + 0.5));
+	return static_cast<int>(this->toFloat() + 0.5);
 }

@@ -30,16 +30,16 @@ public:
 	bool operator!=(const Fixed &right);
 
 	// arithmetic operator overloads (implementation missing)
-	Fixed &operator+(const Fixed &right);
-	Fixed &operator-(const Fixed &right);
-	Fixed &operator*(const Fixed &right);
-	Fixed &operator/(const Fixed &right);
+	Fixed operator+(const Fixed &right);
+	Fixed operator-(const Fixed &right);
+	Fixed operator*(const Fixed &right);
+	Fixed operator/(const Fixed &right);
 
 	// increment/decrement operator overloads (implementation missing)
-	Fixed &operator++();
-	Fixed &operator++(int);
-	Fixed &operator--();
-	Fixed &operator--(int);
+	Fixed& operator++(void);
+	Fixed operator++(int);
+	Fixed& operator--(void);
+	Fixed operator--(int);
 
 	// returns the raw value of the fixed-point value
 	int getRawBits(void) const;
