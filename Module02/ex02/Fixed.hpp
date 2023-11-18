@@ -21,7 +21,7 @@ public:
 	// copy assignment operator overload
 	Fixed &operator=(const Fixed &original);
 
-	// comparison overloads (implementation missing)
+	// comparison operator overloads
 	bool operator>(const Fixed &right);
 	bool operator<(const Fixed &right);
 	bool operator>=(const Fixed &right);
@@ -29,9 +29,17 @@ public:
 	bool operator==(const Fixed &right);
 	bool operator!=(const Fixed &right);
 
-	// The 4 arithmetic operators: +, -, *, and / (prototypes missing)
+	// arithmetic operator overloads (implementation missing)
+	Fixed &operator+(const Fixed &right);
+	Fixed &operator-(const Fixed &right);
+	Fixed &operator*(const Fixed &right);
+	Fixed &operator/(const Fixed &right);
 
-	// The 4 increment/decrement (pre-increment and post-increment, pre-decrement and post-decrement) operators (prototypes missing)
+	// increment/decrement operator overloads (implementation missing)
+	Fixed &operator++();
+	Fixed &operator++(int);
+	Fixed &operator--();
+	Fixed &operator--(int);
 
 	// returns the raw value of the fixed-point value
 	int getRawBits(void) const;
