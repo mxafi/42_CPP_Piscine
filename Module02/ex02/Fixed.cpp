@@ -31,7 +31,7 @@ Fixed::~Fixed(void)
 	std::cout << "Destructor called" << std::endl;
 }
 
-// overload member functions
+// operator overload member functions
 
 Fixed &Fixed::operator=(const Fixed &original)
 {
@@ -45,6 +45,48 @@ std::ostream &operator<<(std::ostream &out, const Fixed &fixedNumber)
 {
 	out << fixedNumber.toFloat();
 	return (out);
+}
+
+bool Fixed::operator>(const Fixed &right)
+{
+	if (this->fixedPointNumberValue_ > right.fixedPointNumberValue_)
+		return (true);
+	return (false);
+}
+
+bool Fixed::operator<(const Fixed &right)
+{
+	if (this->fixedPointNumberValue_ < right.fixedPointNumberValue_)
+		return (true);
+	return (false);
+}
+
+bool Fixed::operator>=(const Fixed &right)
+{
+	if (this->fixedPointNumberValue_ >= right.fixedPointNumberValue_)
+		return (true);
+	return (false);
+}
+
+bool Fixed::operator<=(const Fixed &right)
+{
+	if (this->fixedPointNumberValue_ <= right.fixedPointNumberValue_)
+		return (true);
+	return (false);
+}
+
+bool Fixed::operator==(const Fixed &right)
+{
+	if (this->fixedPointNumberValue_ == right.fixedPointNumberValue_)
+		return (true);
+	return (false);
+}
+
+bool Fixed::operator!=(const Fixed &right)
+{
+	if (this->fixedPointNumberValue_ != right.fixedPointNumberValue_)
+		return (true);
+	return (false);
 }
 
 // normal member functions
