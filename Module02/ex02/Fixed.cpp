@@ -89,8 +89,8 @@ Fixed Fixed::operator-(const Fixed& right) {
 Fixed Fixed::operator*(const Fixed& right) {
   Fixed ret;
   ret.fixedPointNumberValue_ =
-      static_cast<int>((static_cast<int64_t>(this->fixedPointNumberValue_) *
-                        static_cast<int64_t>(right.fixedPointNumberValue_)) >>
+      static_cast<int>((static_cast<long long int>(this->fixedPointNumberValue_) *
+                        static_cast<long long int>(right.fixedPointNumberValue_)) >>
                        ret.numberOfFractionalBits_);
   return ret;
 }
@@ -98,9 +98,9 @@ Fixed Fixed::operator*(const Fixed& right) {
 Fixed Fixed::operator/(const Fixed& right) {
   Fixed ret;
   ret.fixedPointNumberValue_ =
-      static_cast<int>((static_cast<int64_t>(this->fixedPointNumberValue_)
+      static_cast<int>((static_cast<long long int>(this->fixedPointNumberValue_)
                         << ret.numberOfFractionalBits_) /
-                       static_cast<int64_t>(right.fixedPointNumberValue_));
+                       static_cast<long long int>(right.fixedPointNumberValue_));
   return ret;
 }
 
