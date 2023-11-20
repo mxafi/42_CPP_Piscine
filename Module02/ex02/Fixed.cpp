@@ -119,20 +119,20 @@ Fixed Fixed::operator/(const Fixed &right)
 
 Fixed &Fixed::operator++(void)
 {
-	this->fixedPointNumberValue_ += this->fixedPointNumberValue_;
+	this->fixedPointNumberValue_++;
 	return *this;
 }
 
 Fixed Fixed::operator++(int)
 {
-	Fixed ret;
-
+	Fixed ret = *this;
+	this->fixedPointNumberValue_++;
 	return ret;
 }
 
 Fixed &Fixed::operator--(void)
 {
-	this->fixedPointNumberValue_ -= this->fixedPointNumberValue_;
+	this->fixedPointNumberValue_--;
 	return *this;
 }
 
