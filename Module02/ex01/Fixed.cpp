@@ -17,13 +17,13 @@ Fixed::Fixed(const Fixed &original)
 Fixed::Fixed(const int intN)
 {
 	std::cout << "Int constructor called" << std::endl;
-	this->fixedPointNumberValue_ = int(intN * float(1 << this->numberOfFractionalBits_));
+	this->fixedPointNumberValue_ = static_cast<int>(intN * static_cast<float>(1 << this->numberOfFractionalBits_));
 }
 
 Fixed::Fixed(const float floatN)
 {
 	std::cout << "Float constructor called" << std::endl;
-	this->fixedPointNumberValue_ = int(floatN * float(1 << this->numberOfFractionalBits_) + (floatN >= 0 ? 0.5 : -0.5));
+	this->fixedPointNumberValue_ = static_cast<int>(floatN * static_cast<float>(1 << this->numberOfFractionalBits_) + (floatN >= 0 ? 0.5 : -0.5));
 }
 
 Fixed::~Fixed(void)
@@ -63,10 +63,10 @@ void Fixed::setRawBits(int const raw)
 
 float Fixed::toFloat(void) const
 {
-	return (float(this->fixedPointNumberValue_) / float(1 << this->numberOfFractionalBits_));
+	return (static_cast<float>(this->fixedPointNumberValue_) / static_cast<float>(1 << this->numberOfFractionalBits_));
 }
 
 int Fixed::toInt(void) const
 {
-	return (int(this->toFloat() + 0.5));
+	return (static_cast<int>(this->toFloat() + 0.5));
 }
