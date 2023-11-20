@@ -37,39 +37,27 @@ std::ostream& operator<<(std::ostream& out, const Fixed& fixedNumber) {
 }
 
 bool Fixed::operator>(const Fixed& right) {
-  if (this->fixedPointNumberValue_ > right.fixedPointNumberValue_)
-    return true;
-  return false;
+  return (this->fixedPointNumberValue_ > right.fixedPointNumberValue_);
 }
 
 bool Fixed::operator<(const Fixed& right) {
-  if (this->fixedPointNumberValue_ < right.fixedPointNumberValue_)
-    return true;
-  return false;
+  return (this->fixedPointNumberValue_ < right.fixedPointNumberValue_);
 }
 
 bool Fixed::operator>=(const Fixed& right) {
-  if (this->fixedPointNumberValue_ >= right.fixedPointNumberValue_)
-    return true;
-  return false;
+  return (this->fixedPointNumberValue_ >= right.fixedPointNumberValue_);
 }
 
 bool Fixed::operator<=(const Fixed& right) {
-  if (this->fixedPointNumberValue_ <= right.fixedPointNumberValue_)
-    return true;
-  return false;
+  return (this->fixedPointNumberValue_ <= right.fixedPointNumberValue_);
 }
 
 bool Fixed::operator==(const Fixed& right) {
-  if (this->fixedPointNumberValue_ == right.fixedPointNumberValue_)
-    return true;
-  return false;
+  return (this->fixedPointNumberValue_ == right.fixedPointNumberValue_);
 }
 
 bool Fixed::operator!=(const Fixed& right) {
-  if (this->fixedPointNumberValue_ != right.fixedPointNumberValue_)
-    return true;
-  return false;
+  return (this->fixedPointNumberValue_ != right.fixedPointNumberValue_);
 }
 
 Fixed Fixed::operator+(const Fixed& right) {
