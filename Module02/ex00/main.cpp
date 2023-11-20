@@ -1,8 +1,7 @@
-#include "Fixed.hpp"
 #include <iostream>
+#include "Fixed.hpp"
 
-int main(void)
-{
+int main(void) {
   Fixed a;
   a.setRawBits(2);
   Fixed b(a);
