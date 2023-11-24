@@ -58,6 +58,7 @@ TEST_CASE("converting int, float, and insertion overload works") {
   }
 
   SECTION("converting to float works") {
+    REQUIRE(b.toFloat() == 10.00f);
     REQUIRE(e.toFloat() == 2.25f);
     REQUIRE(f.toFloat() == 2.75f);
     REQUIRE(g.toFloat() == -3.25f);
@@ -65,6 +66,7 @@ TEST_CASE("converting int, float, and insertion overload works") {
   }
 
   SECTION("converting to int works") {
+    REQUIRE(b.toInt() == 10);
     REQUIRE(e.toInt() == 2);
     REQUIRE(f.toInt() == 3);
     REQUIRE(g.toInt() == -3);
@@ -77,5 +79,128 @@ TEST_CASE("converting int, float, and insertion overload works") {
     test_stream << g;
 
     REQUIRE(test_stream.str() == "2.25-3.25");
+  }
+}
+
+TEST_CASE("comparison operator overloads work") {
+  Fixed a(1.1101f);
+  Fixed b(2.0311f);
+  Fixed c(2.0311f);
+  Fixed d(-1.91f);
+
+  SECTION("> works") {
+    REQUIRE((a > b) == false);
+    REQUIRE((b > a) == true);
+    REQUIRE((b > c) == false);
+    REQUIRE((d > b) == false);
+    REQUIRE((b > d) == true);
+    REQUIRE((d > d) == false);
+  }
+
+  SECTION("< works") {
+    REQUIRE((a < b) == true);
+    REQUIRE((b < a) == false);
+    REQUIRE((b < c) == false);
+    REQUIRE((d < b) == true);
+    REQUIRE((b < d) == false);
+    REQUIRE((d < d) == false);
+  }
+
+  SECTION(">= works") {
+    REQUIRE((a >= b) == false);
+    REQUIRE((b >= a) == true);
+    REQUIRE((b >= c) == true);
+    REQUIRE((d >= b) == false);
+    REQUIRE((b >= d) == true);
+    REQUIRE((d >= d) == true);
+  }
+
+  SECTION("<= works") {
+    REQUIRE((a <= b) == true);
+    REQUIRE((b <= a) == false);
+    REQUIRE((b <= c) == true);
+    REQUIRE((d <= b) == true);
+    REQUIRE((b <= d) == false);
+    REQUIRE((d <= d) == true);
+  }
+
+  SECTION("== works") {
+    REQUIRE((a == b) == false);
+    REQUIRE((b == a) == false);
+    REQUIRE((b == c) == true);
+    REQUIRE((d == b) == false);
+    REQUIRE((b == d) == false);
+    REQUIRE((d == d) == true);
+  }
+
+  SECTION("!= works") {
+    REQUIRE((a != b) == true);
+    REQUIRE((b != a) == true);
+    REQUIRE((b != c) == false);
+    REQUIRE((d != b) == true);
+    REQUIRE((b != d) == true);
+    REQUIRE((d != d) == false);
+  }
+}
+
+TEST_CASE("arithmetic operator overloads work") {
+  Fixed a(1);
+  Fixed b(2);
+  Fixed c(3);
+  Fixed d(-1);
+  Fixed e(0.5f);
+  Fixed ans;
+
+  SECTION("+ works") {
+    ans = a + b;
+
+    REQUIRE(ans.toFloat() == 3);
+    REQUIRE(ans.toInt() == 3);
+
+    ans = a + d;
+
+    REQUIRE(ans.toFloat() == 0);
+    REQUIRE(ans.toInt() == 0);
+
+    ans = d + b;
+
+    REQUIRE(ans.toFloat() == 1);
+    REQUIRE(ans.toInt() == 1);
+  }
+
+  SECTION("- works") {
+    ans = b - a;
+
+    REQUIRE(ans.toFloat() == 1);
+    REQUIRE(ans.toInt() == 1);
+
+    ans = d - b;
+
+    REQUIRE(ans.toFloat() == -3);
+    REQUIRE(ans.toInt() == -3);
+
+    ans = b - d;
+
+    REQUIRE(ans.toFloat() == 3);
+    REQUIRE(ans.toInt() == 3);
+  }
+
+  SECTION("* works") {
+    ans = b * c;
+    REQUIRE(ans.toFloat() == 6);
+
+    ans = d * c;
+    REQUIRE(ans.toFloat() == -3);
+
+    ans = c * e;
+    REQUIRE(ans.toFloat() == 1.5);
+  }
+
+  SECTION("/ works") {
+    ans = c / b;
+    REQUIRE(ans.toFloat() == 1.5);
+
+    ans = e / d;
+    REQUIRE(ans.toFloat() == -0.5);
   }
 }
