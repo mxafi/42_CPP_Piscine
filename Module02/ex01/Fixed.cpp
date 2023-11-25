@@ -61,5 +61,5 @@ float Fixed::toFloat(void) const {
 }
 
 int Fixed::toInt(void) const {
-  return (static_cast<int>(this->toFloat() + 0.5));
+  return static_cast<int>(this->toFloat() + (this->fixedPointNumberValue_ < 0 ? -0.5 : 0.5));
 }
