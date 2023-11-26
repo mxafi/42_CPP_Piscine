@@ -202,5 +202,105 @@ TEST_CASE("arithmetic operator overloads work") {
 
     ans = e / d;
     REQUIRE(ans.toFloat() == -0.5);
+
+    ans = b / d;
+    REQUIRE(ans.toFloat() == -2);
   }
+}
+
+TEST_CASE("increment decrement operator overloads work") {
+
+  SECTION("pre-increment works") {
+    Fixed a(5);
+    Fixed b(5.00390625f);
+    Fixed c(5);
+    Fixed d(-5);
+
+    ++a;
+    REQUIRE(a == b);
+    --a;
+    REQUIRE(a == c);
+
+    REQUIRE(++a == b);
+  }
+
+  SECTION("pre-decrement works") {
+    Fixed a(5);
+    Fixed b(4.99609375f);
+    Fixed c(5);
+
+    --a;
+    REQUIRE(a == b);
+    ++a;
+    REQUIRE(a == c);
+
+    REQUIRE(--a == b);
+  }
+
+  SECTION("post-increment works") {
+    Fixed a(5);
+    Fixed b(5.00390625f);
+    Fixed c(5);
+
+    a++;
+    REQUIRE(a == b);
+    a--;
+    REQUIRE(a == c);
+
+    REQUIRE(a++ == c);
+  }
+
+  SECTION("post-decrement works") {
+    Fixed a(5);
+    Fixed b(4.99609375f);
+    Fixed c(5);
+
+    a--;
+    REQUIRE(a == b);
+    a++;
+    REQUIRE(a == c);
+
+    REQUIRE(a-- == c);
+  }
+}
+
+TEST_CASE("min max functions work") {
+  Fixed a(1.75f);
+  Fixed b(2.00f);
+  const Fixed c = a;
+  const Fixed d = b;
+  Fixed ans;
+
+  SECTION("min function overloads work") {
+    REQUIRE(Fixed::min(a, b) == a);
+
+    ans = Fixed::min(d, c);
+    REQUIRE(ans == c);
+  }
+
+  SECTION("max function overloads work") {
+    REQUIRE(Fixed::max(a, b) == b);
+
+    ans = Fixed::max(d, c);
+    REQUIRE(ans == d);
+  }
+}
+
+TEST_CASE("ex02 example code") {
+  std::stringstream out;
+
+  Fixed a;
+  Fixed const b(Fixed(5.05f) * Fixed(2));
+
+  out << a << std::endl;
+  out << ++a << std::endl;
+  out << a << std::endl;
+  out << a++ << std::endl;
+  out << a << std::endl;
+  out << b << std::endl;
+  out << Fixed::max(a, b) << std::endl;
+
+  REQUIRE(
+      out.str() ==
+      "0\n0.00390625\n0.00390625\n0.00390625\n0.0078125\n10.1016\n10.1016\n");
 }
