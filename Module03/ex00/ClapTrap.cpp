@@ -55,6 +55,9 @@ void ClapTrap::takeDamage(unsigned int amount) {
 
   if (this->hitPoints_ <= static_cast<long>(amount)) {
     this->hitPoints_ = 0;
+    std::cout << "ClapTrap " << this->name_ << " has taken " << amount
+              << " points of damage and now is dead with 0 hit points!"
+              << std::endl;
     return;
   }
 
