@@ -19,7 +19,7 @@ Animal& Animal::operator=(const Animal& other) {
 }
 
 void Animal::makeSound(void) const {
-  std::cout << "Animal makes an unspecified animal sound..." << std::endl;
+  std::cout << "Unspecified Animal sound." << std::endl;
 }
 
 std::string Animal::getType(void) const {
