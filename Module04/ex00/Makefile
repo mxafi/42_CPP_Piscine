@@ -6,7 +6,9 @@ NAME		=	poly
 SRC			=	main.cpp \
 					Animal.cpp \
 					Dog.cpp \
-					Cat.cpp
+					Cat.cpp \
+					WrongAnimal.cpp \
+					WrongCat.cpp
 
 OBJ			=	$(patsubst %.cpp, %.o, $(SRC))
 
