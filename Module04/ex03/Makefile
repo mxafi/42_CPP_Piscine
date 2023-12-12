@@ -4,7 +4,9 @@ DFLAGS	=	-g
 NAME		=	materia
 
 SRC			=	main.cpp \
-					AMateria.cpp
+					AMateria.cpp \
+					Ice.cpp \
+					Cure.cpp
 
 OBJ			=	$(patsubst %.cpp, %.o, $(SRC))
 
