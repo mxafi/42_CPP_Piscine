@@ -1,6 +1,7 @@
 #ifndef MATERIASOURCE_HPP
 #define MATERIASOURCE_HPP
 
+#include <string>
 #include "AMateria.hpp"
 #include "IMateriaSource.hpp"
 
