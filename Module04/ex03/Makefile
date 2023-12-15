@@ -6,7 +6,9 @@ NAME		=	materia
 SRC			=	main.cpp \
 					AMateria.cpp \
 					Ice.cpp \
-					Cure.cpp
+					Cure.cpp \
+					Character.cpp \
+					MateriaSource.cpp
 
 OBJ			=	$(patsubst %.cpp, %.o, $(SRC))
 
