@@ -10,8 +10,12 @@ Character::Character(std::string name) : name(name) {
 }
 
 Character::~Character() {
-  delete[] this->pile;
-  delete[] this->inventory;
+  for (int i = 0; i < 100; i++) {
+    delete this->pile[i];
+  }
+  for (int i = 0; i < 4; i++) {
+    delete this->inventory[i];
+  }
 }
 
 Character::Character(const Character& other) : name(other.name) {

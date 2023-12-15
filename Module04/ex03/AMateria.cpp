@@ -15,4 +15,6 @@ const std::string& AMateria::getType() const {
   return this->type;
 }
 
-void AMateria::use(ICharacter& target) {}
+void AMateria::use(ICharacter& target) {
+  std::cout << "* does nothing to " << target.getName() << ", as there is no use for base AMateria *" << std::endl;
+}

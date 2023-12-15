@@ -7,6 +7,7 @@ Ice::~Ice() {}
 Ice::Ice(const Ice& other) : AMateria(other) {}
 
 Ice& Ice::operator=(const Ice& other) {
+  (void)other;
   return *this;
 }
 

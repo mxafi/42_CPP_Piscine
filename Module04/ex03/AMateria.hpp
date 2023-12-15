@@ -2,8 +2,8 @@
 #define AMATERIA_HPP
 
 #include <string>
-
-class ICharacter;
+#include <iostream>
+#include "ICharacter.hpp"
 
 class AMateria {
  private:

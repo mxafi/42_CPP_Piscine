@@ -1,7 +1,9 @@
 #include "MateriaSource.hpp"
 
 MateriaSource::~MateriaSource() {
-  delete[] inventory;
+  for (int i = 0; i < 4; i++) {
+    delete inventory[i];
+  }
 }
 
 MateriaSource::MateriaSource() {
