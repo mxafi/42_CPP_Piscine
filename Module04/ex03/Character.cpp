@@ -11,24 +11,31 @@ Character::Character(std::string name) : name(name) {
 
 Character::~Character() {
   delete[] this->pile;
+  delete[] this->inventory;
 }
 
 Character::Character(const Character& other) : name(other.name) {
-  for (int i = 0; i < 100; i++) {
-    this->pile[i] = other.pile[i];
-  }
   for (int i = 0; i < 4; i++) {
-    this->inventory[i] = other.inventory[i];
+    if (this->inventory[i]) {
+      delete this->inventory[i];
+      this->inventory[i] = NULL;
+    }
+    if (other.inventory[i]) {
+      this->inventory[i] = other.inventory[i]->clone();
+    }
   }
 }
 
 Character& Character::operator=(const Character& other) {
   this->name = other.name;
-  for (int i = 0; i < 100; i++) {
-    this->pile[i] = other.pile[i];
-  }
   for (int i = 0; i < 4; i++) {
-    this->inventory[i] = other.inventory[i];
+    if (this->inventory[i]) {
+      delete this->inventory[i];
+      this->inventory[i] = NULL;
+    }
+    if (other.inventory[i]) {
+      this->inventory[i] = other.inventory[i]->clone();
+    }
   }
   return *this;
 }
