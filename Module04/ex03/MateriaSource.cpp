@@ -35,12 +35,16 @@ MateriaSource& MateriaSource::operator=(const MateriaSource& other) {
 }
 
 void MateriaSource::learnMateria(AMateria* m) {
+  if (!m)
+    return;
   for (int i = 0; i < 4; i++) {
     if (!inventory[i]) {
       inventory[i] = m;
-      break;
+      return;
     }
   }
+  delete m;
+  m = NULL;
 }
 
 AMateria* MateriaSource::createMateria(const std::string& type) {
