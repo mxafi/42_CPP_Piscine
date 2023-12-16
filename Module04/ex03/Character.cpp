@@ -19,11 +19,11 @@ Character::~Character() {
 }
 
 Character::Character(const Character& other) : name(other.name) {
+  for (int i = 0; i < 100; i++) {
+    this->pile[i] = NULL;
+  }
   for (int i = 0; i < 4; i++) {
-    if (this->inventory[i]) {
-      delete this->inventory[i];
-      this->inventory[i] = NULL;
-    }
+    this->inventory[i] = NULL;
     if (other.inventory[i]) {
       this->inventory[i] = other.inventory[i]->clone();
     }
