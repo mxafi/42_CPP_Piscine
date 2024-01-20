@@ -2,6 +2,7 @@
 #define BUREAUCRAT_HPP
 
 #include <string>
+#include <iostream>
 #include "BureaucratException.hpp"
 
 class Bureaucrat {
@@ -17,8 +18,11 @@ class Bureaucrat {
   Bureaucrat& operator=(Bureaucrat& other);
   std::string getName(void);
   unsigned int getGrade(void);
-  BureaucratException GradeTooHighException(void);
-  BureaucratException GradeTooLowException(void);
+  void incrementGrade(void);
+  void decrementGrade(void);
+  static BureaucratException GradeTooHighException(void);
+  static BureaucratException GradeTooLowException(void);
 };
+std::ostream& operator<<(std::ostream& out, Bureaucrat& bureaucrat);
 
 #endif

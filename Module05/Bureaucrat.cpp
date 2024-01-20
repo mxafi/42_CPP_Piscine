@@ -26,6 +26,24 @@ unsigned int Bureaucrat::getGrade(void) {
   return this->grade;
 }
 
+void Bureaucrat::incrementGrade(void) {
+  if (grade == 1)
+    throw Bureaucrat::GradeTooHighException();
+  grade--;
+}
+
+void Bureaucrat::decrementGrade(void) {
+  if (grade == 150)
+    throw Bureaucrat::GradeTooLowException();
+  grade++;
+}
+
+std::ostream& operator<<(std::ostream& out, Bureaucrat& bureaucrat) {
+  std::cout << bureaucrat.getName() << ", bureaucrat grade "
+            << bureaucrat.getGrade() << ".";
+  return out;
+}
+
 BureaucratException Bureaucrat::GradeTooHighException(void) {
   return BureaucratException("Bureaucrat::GradeTooHighException");
 }
