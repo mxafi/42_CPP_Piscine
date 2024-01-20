@@ -1,8 +1,5 @@
 #include "BureaucratException.hpp"
 
-BureaucratException::BureaucratException(void)
-    : message("Bureaucrat::Exception") {}
+BureaucratException::BureaucratException(std::string& message) : std::runtime_error(message) {}
 
-BureaucratException::BureaucratException(char* message) : message(message) {}
-
-char* BureaucratException::what(void) {}
+BureaucratException::BureaucratException(const char* message) : std::runtime_error(message) {}

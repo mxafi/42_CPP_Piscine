@@ -2,7 +2,7 @@
 #define BUREAUCRAT_HPP
 
 #include <string>
-#include <stdexcept>
+#include "BureaucratException.hpp"
 
 class Bureaucrat {
  private:
@@ -17,8 +17,8 @@ class Bureaucrat {
   Bureaucrat& operator=(Bureaucrat& other);
   std::string getName(void);
   unsigned int getGrade(void);
-  std::exception& GradeTooHighException(std::string& message);
-  std::exception& GradeTooLowException(std::string& message);
+  BureaucratException GradeTooHighException(void);
+  BureaucratException GradeTooLowException(void);
 };
 
 #endif

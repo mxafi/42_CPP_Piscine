@@ -4,14 +4,12 @@
 #include <stdexcept>
 #include <string>
 
-class BureaucratException : public std::exception {
+class BureaucratException : public std::runtime_error {
  private:
-  char* message;
-
- public:
   BureaucratException(void);
-  BureaucratException(char* message);
-  char* what(void);
+ public:
+  BureaucratException(std::string& message);
+  BureaucratException(const char* message);
 };
 
 #endif

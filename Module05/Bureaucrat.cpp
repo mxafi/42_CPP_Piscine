@@ -3,9 +3,9 @@
 Bureaucrat::Bureaucrat(std::string name, unsigned int grade)
     : name(name), grade(grade) {
   if (grade < 1)
-    throw std::out_of_range("Bureaucrat::GradeTooHighException");
+    throw Bureaucrat::GradeTooHighException();
   else if (grade > 150)
-    throw std::out_of_range("Bureaucrat::GradeTooLowException");
+    throw Bureaucrat::GradeTooLowException();
 }
 
 Bureaucrat::Bureaucrat(Bureaucrat& other)
@@ -24,4 +24,12 @@ std::string Bureaucrat::getName(void) {
 
 unsigned int Bureaucrat::getGrade(void) {
   return this->grade;
+}
+
+BureaucratException Bureaucrat::GradeTooHighException(void) {
+  return BureaucratException("Bureaucrat::GradeTooHighException");
+}
+
+BureaucratException Bureaucrat::GradeTooLowException(void) {
+  return BureaucratException("Bureaucrat::GradeTooLowException");
 }
