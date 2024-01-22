@@ -3,9 +3,11 @@
 Bureaucrat::Bureaucrat(std::string name, unsigned int grade)
     : name(name), grade(grade) {
   if (grade < 1)
-    throw Bureaucrat::GradeTooHighException("Bureaucrat::GradeTooHighException from constructor");
+    throw Bureaucrat::GradeTooHighException(
+        "Bureaucrat::GradeTooHighException from constructor");
   else if (grade > 150)
-    throw Bureaucrat::GradeTooLowException("Bureaucrat::GradeTooLowException from constructor");
+    throw Bureaucrat::GradeTooLowException(
+        "Bureaucrat::GradeTooLowException from constructor");
 }
 
 Bureaucrat::Bureaucrat(Bureaucrat& other)
@@ -28,13 +30,15 @@ unsigned int Bureaucrat::getGrade(void) {
 
 void Bureaucrat::incrementGrade(void) {
   if (grade == 1)
-    throw Bureaucrat::GradeTooHighException("Bureaucrat::GradeTooHighException from incrementGrade");
+    throw Bureaucrat::GradeTooHighException(
+        "Bureaucrat::GradeTooHighException from incrementGrade");
   grade--;
 }
 
 void Bureaucrat::decrementGrade(void) {
   if (grade == 150)
-    throw Bureaucrat::GradeTooLowException("Bureaucrat::GradeTooLowException from decrementGrade");
+    throw Bureaucrat::GradeTooLowException(
+        "Bureaucrat::GradeTooLowException from decrementGrade");
   grade++;
 }
 

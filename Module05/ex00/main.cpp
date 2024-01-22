@@ -48,13 +48,15 @@ int main() {
     f.decrementGrade();
     std::cout << f << std::endl;
     try {
-      std::cout << "try Bureaucrat catch GradeTooHighException ------" << std::endl;
+      std::cout << "try Bureaucrat catch GradeTooHighException ------"
+                << std::endl;
       Bureaucrat b("Bob", 0);
     } catch (Bureaucrat::GradeTooHighException& e) {
       std::cout << e.what() << std::endl;
     }
     try {
-      std::cout << "try Bureaucrat catch GradeTooLowException ------" << std::endl;
+      std::cout << "try Bureaucrat catch GradeTooLowException ------"
+                << std::endl;
       Bureaucrat b("Bob", 151);
     } catch (Bureaucrat::GradeTooLowException& e) {
       std::cout << e.what() << std::endl;
