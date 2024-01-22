@@ -1,9 +1,9 @@
 #ifndef BUREAUCRAT_HPP
 #define BUREAUCRAT_HPP
 
-#include <string>
 #include <iostream>
-#include "BureaucratException.hpp"
+#include <stdexcept>
+#include <string>
 
 class Bureaucrat {
  private:
@@ -20,9 +20,20 @@ class Bureaucrat {
   unsigned int getGrade(void);
   void incrementGrade(void);
   void decrementGrade(void);
-  static BureaucratException GradeTooHighException(void);
-  static BureaucratException GradeTooLowException(void);
+
+  class GradeTooHighException : public std::runtime_error {
+   public:
+    GradeTooHighException(std::string& msg) : std::runtime_error(msg){};
+    GradeTooHighException(const char* msg) : std::runtime_error(msg){};
+  };
+
+  class GradeTooLowException : public std::runtime_error {
+   public:
+    GradeTooLowException(std::string& msg) : std::runtime_error(msg){};
+    GradeTooLowException(const char* msg) : std::runtime_error(msg){};
+  };
 };
+
 std::ostream& operator<<(std::ostream& out, Bureaucrat& bureaucrat);
 
 #endif

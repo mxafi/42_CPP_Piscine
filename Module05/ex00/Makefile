@@ -4,8 +4,7 @@ DFLAGS	=	-g
 NAME		=	bureaucrat
 
 SRC			=	main.cpp \
-					Bureaucrat.cpp \
-					BureaucratException.cpp
+					Bureaucrat.cpp
 
 OBJ			=	$(patsubst %.cpp, %.o, $(SRC))
 
