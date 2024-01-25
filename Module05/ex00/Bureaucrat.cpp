@@ -5,7 +5,7 @@ Bureaucrat::Bureaucrat(std::string name, unsigned int grade)
   if (grade < 1)
     throw Bureaucrat::GradeTooHighException(
         "Bureaucrat::GradeTooHighException from constructor");
-  else if (grade > 150)
+  if (grade > 150)
     throw Bureaucrat::GradeTooLowException(
         "Bureaucrat::GradeTooLowException from constructor");
 }
