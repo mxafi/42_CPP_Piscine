@@ -22,6 +22,7 @@ $(NAME): $(OBJ)
 .PHONY: clean
 clean:
 	$(RM) $(OBJ)
+	$(RM) *_shrubbery
 
 .PHONY: fclean
 fclean: clean
