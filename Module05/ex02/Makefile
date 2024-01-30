@@ -5,7 +5,8 @@ NAME		=	bureaucrat
 
 SRC			=	main.cpp \
 					Bureaucrat.cpp \
-					AForm.cpp
+					AForm.cpp \
+					ShrubberyCreationForm.cpp
 
 OBJ			=	$(patsubst %.cpp, %.o, $(SRC))
 
