@@ -2,15 +2,17 @@
 
 ShrubberyCreationForm::~ShrubberyCreationForm() {}
 
-ShrubberyCreationForm::ShrubberyCreationForm(std::string& target)
-    : AForm("Shrubbery Creation Form", 145, 137) {}
+ShrubberyCreationForm::ShrubberyCreationForm(std::string target)
+    : AForm("Shrubbery Creation Form", 145, 137), target_(target) {
+}
 
 ShrubberyCreationForm::ShrubberyCreationForm(ShrubberyCreationForm& other)
-    : AForm(other), target(target) {}
+    : AForm(other), target_(other.target_) {}
 
 ShrubberyCreationForm& ShrubberyCreationForm::operator=(
     ShrubberyCreationForm& other) {
-  target = other.target;
+  target_ = other.target_;
+  return *this;
 }
 
 void ShrubberyCreationForm::execute(Bureaucrat const& executor) const {
@@ -21,22 +23,22 @@ void ShrubberyCreationForm::execute(Bureaucrat const& executor) const {
     throw AForm::FormNotSignedException(
         "AForm::FormNotSignedException: getSignature");
   
-  std::string filename = target + "_shrubbery";
+  std::string filename = target_ + "_shrubbery";
   std::ofstream outfile(filename);
   if(!outfile.good())
     throw std::runtime_error("std::runtime_error: " + filename + " is not good.");
   
   std::string shrubbery =
-  '       _-_                 ###             %%%,%%%%%%%            ' +
-  '    /~~   ~~\             #o###             ,"%% \\-*%%%%%%%      ' +
-  ' /~~         ~~\        #####o###     ;%%%%%*%   _%%%%"           ' +
-  ' /~~         ~~\        #####o###     ;%%%%%*%   _%%%%"           ' +
-  '{               }      #o#\#|#/###     ,%%%       \(_.*%%%%.      ' +
-  ' \  _-     -_  /        ###\|/#o#      % *%%, ,%%%%*(    "        ' +
-  '   ~  \\ //  ~           # }|{  #    %^     ,*%%% )\|,%%*%,_      ' +
-  '_- -   | | _- _            }|{            *%    \/ #).-"*%%*      ' +
-  '  _ -  | |   -_                               _.) ,/ *%,          ' +
-  '      // \\                           _________/)#(_____________  ';
+  std::string("       _-_                 ###             %%%,%%%%%%%            \n") +
+  "    /~~   ~~\\             #o###             ,\"%% \\\\-*%%%%%%%      \n" +
+  " /~~         ~~\\        #####o###     ;%%%%%*%   _%%%%\"           \n" +
+  " /~~         ~~\\        #####o###     ;%%%%%*%   _%%%%\"           \n" +
+  "{               }      #o#\\#|#/###     ,%%%       \\(_.*%%%%.      \n" +
+  " \\  _-     -_  /        ###\\|/#o#      % *%%, ,%%%%*(    \"        \n" +
+  "   ~  \\\\ //  ~           # }|{  #    %^     ,*%%% )\\|,%%*%,_      \n" +
+  "_- -   | | _- _            }|{            *%    \\/ #).-\"*%%*      \n" +
+  "  _ -  | |   -_                               _.) ,/ *%,          \n" +
+  "      // \\\\                           _________/)#(_____________  \n";
 
   outfile << shrubbery;
 }
