@@ -4,7 +4,7 @@
 #include <string>
 #include <stdexcept>
 #include <fstream>
-#include "AForm.hpp";
+#include "AForm.hpp"
 
 class ShrubberyCreationForm : public AForm {
  private:
