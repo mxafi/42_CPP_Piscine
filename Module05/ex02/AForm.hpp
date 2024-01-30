@@ -39,6 +39,12 @@ class AForm {
     GradeTooLowException(std::string& msg) : std::runtime_error(msg){};
     GradeTooLowException(const char* msg) : std::runtime_error(msg){};
   };
+
+  class FormNotSignedException : public std::runtime_error {
+   public:
+    FormNotSignedException(std::string& msg) : std::runtime_error(msg){};
+    FormNotSignedException(const char* msg) : std::runtime_error(msg){};
+  };
 };
 
 std::ostream& operator<<(std::ostream& out, AForm& form);
