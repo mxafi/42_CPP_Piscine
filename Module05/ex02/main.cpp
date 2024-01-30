@@ -1,7 +1,8 @@
 #include <iostream>
 #include <stdexcept>
 #include "Bureaucrat.hpp"
-#include "Form.hpp"
+#include "AForm.hpp"
+#include "ShrubberyCreationForm.hpp"
 
 int main() {
   {
@@ -65,64 +66,23 @@ int main() {
   }
   {
     {
-      std::cout << std::endl << "------ Form tests ------" << std::endl;
-      std::cout << "* test signing with low grade" << std::endl;
-      Form f("F1A", 50, 25);
-      Bureaucrat b("Bob", 51);
-      std::cout << f << std::endl << b << std::endl;
+      std::cout << std::endl << "------ ShrubberyCreationForm tests ------" << std::endl;
+      std::cout << "* test initializing without target" << std::endl;
+      ShrubberyCreationForm f1("beta");
+      Bureaucrat b1("Bob", 1);
+      std::cout << f1 << std::endl << b1 << std::endl;
       try {
-        b.signForm(f);
+        b1.signForm(f1);
       } catch (std::exception& e) {
-        std::cout << "Caught exception while signing form: " << e.what()
+        std::cout << "Caught exception while signing AForm: " << e.what()
                   << std::endl;
       }
-      std::cout << f << std::endl;
-    }
-    {
-      std::cout << "* test signing with high grade" << std::endl;
-      Form f("F1A", 50, 25);
-      Bureaucrat b("Bob", 5);
-      std::cout << f << std::endl << b << std::endl;
+      std::cout << f1 << std::endl;
       try {
-        b.signForm(f);
+        b1.executeForm(f1);
       } catch (std::exception& e) {
-        std::cout << "Caught exception while signing form: " << e.what()
+        std::cout << "Caught exception while executing AForm: " << e.what()
                   << std::endl;
-      }
-      std::cout << f << std::endl;
-      std::cout << "* test signing already signed form with high grade"
-                << std::endl;
-      Bureaucrat as("LateBloomer", 5);
-      std::cout << f << std::endl << as << std::endl;
-      try {
-        as.signForm(f);
-      } catch (std::exception& e) {
-        std::cout << "Caught exception while signing form: " << e.what()
-                  << std::endl;
-      }
-    }
-    {
-      std::cout << "* test constructing forms with out of range grades"
-                << std::endl;
-      try {
-        Form f1("F1A", 0, 50);
-      } catch (std::exception& e) {
-        std::cout << "Should be highSign: " << e.what() << std::endl;
-      }
-      try {
-        Form f1("F1A", 151, 50);
-      } catch (std::exception& e) {
-        std::cout << "Should be lowSign: " << e.what() << std::endl;
-      }
-      try {
-        Form f1("F1A", 50, 0);
-      } catch (std::exception& e) {
-        std::cout << "Should be highExec: " << e.what() << std::endl;
-      }
-      try {
-        Form f1("F1A", 50, 151);
-      } catch (std::exception& e) {
-        std::cout << "Should be lowExec: " << e.what() << std::endl;
       }
     }
   }
