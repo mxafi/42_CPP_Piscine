@@ -23,8 +23,8 @@ class AForm {
   AForm& operator=(AForm& other);
   const std::string& getName();
   bool getSignature();
-  unsigned int getGradeToSign();
-  unsigned int getGradeToExecute();
+  unsigned int getGradeToSign() const;
+  unsigned int getGradeToExecute() const;
   void beSigned(Bureaucrat& bureaucrat);
   virtual void execute(Bureaucrat const& executor) const = 0;
 

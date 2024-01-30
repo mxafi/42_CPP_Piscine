@@ -41,11 +41,11 @@ bool AForm::getSignature() {
   return isSigned;
 }
 
-unsigned int AForm::getGradeToSign() {
+unsigned int AForm::getGradeToSign() const {
   return requiredGradeToSign;
 }
 
-unsigned int AForm::getGradeToExecute() {
+unsigned int AForm::getGradeToExecute() const {
   return requiredGradeToExecute;
 }
 

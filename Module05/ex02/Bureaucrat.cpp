@@ -20,11 +20,11 @@ Bureaucrat& Bureaucrat::operator=(Bureaucrat& other) {
   return *this;
 }
 
-std::string Bureaucrat::getName(void) {
+std::string Bureaucrat::getName(void) const {
   return this->name;
 }
 
-unsigned int Bureaucrat::getGrade(void) {
+unsigned int Bureaucrat::getGrade(void) const {
   return this->grade;
 }
 
