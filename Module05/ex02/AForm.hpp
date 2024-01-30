@@ -17,7 +17,7 @@ class AForm {
   AForm();
 
  public:
-  ~AForm();
+  virtual ~AForm();
   AForm(std::string name, unsigned int gradeToSign, unsigned int gradeToExecute);
   AForm(AForm& other);
   AForm& operator=(AForm& other);
