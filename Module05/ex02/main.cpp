@@ -3,6 +3,7 @@
 #include "Bureaucrat.hpp"
 #include "AForm.hpp"
 #include "ShrubberyCreationForm.hpp"
+#include "RobotomyRequestForm.hpp"
 
 int main() {
   {
@@ -67,8 +68,28 @@ int main() {
   {
     {
       std::cout << std::endl << "------ ShrubberyCreationForm tests ------" << std::endl;
-      std::cout << "* test initializing without target" << std::endl;
+      std::cout << "* test signing and execution" << std::endl;
       ShrubberyCreationForm f1("beta");
+      Bureaucrat b1("Bob", 1);
+      std::cout << f1 << std::endl << b1 << std::endl;
+      try {
+        b1.signForm(f1);
+      } catch (std::exception& e) {
+        std::cout << "Caught exception while signing AForm: " << e.what()
+                  << std::endl;
+      }
+      std::cout << f1 << std::endl;
+      try {
+        b1.executeForm(f1);
+      } catch (std::exception& e) {
+        std::cout << "Caught exception while executing AForm: " << e.what()
+                  << std::endl;
+      }
+    }
+    {
+      std::cout << std::endl << "------ RobotomyRequestForm tests ------" << std::endl;
+      std::cout << "* test signing and execution" << std::endl;
+      RobotomyRequestForm f1("delta");
       Bureaucrat b1("Bob", 1);
       std::cout << f1 << std::endl << b1 << std::endl;
       try {
