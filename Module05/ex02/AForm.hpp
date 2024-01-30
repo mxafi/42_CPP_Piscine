@@ -21,8 +21,8 @@ class AForm {
   AForm(std::string name, unsigned int gradeToSign, unsigned int gradeToExecute);
   AForm(AForm& other);
   AForm& operator=(AForm& other);
-  const std::string& getName();
-  bool getSignature();
+  const std::string& getName() const;
+  bool getSignature() const;
   unsigned int getGradeToSign() const;
   unsigned int getGradeToExecute() const;
   void beSigned(Bureaucrat& bureaucrat);

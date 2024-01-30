@@ -33,11 +33,11 @@ AForm& AForm::operator=(AForm& other) {
   return *this;
 }
 
-const std::string& AForm::getName() {
+const std::string& AForm::getName() const {
   return name;
 }
 
-bool AForm::getSignature() {
+bool AForm::getSignature() const {
   return isSigned;
 }
 
