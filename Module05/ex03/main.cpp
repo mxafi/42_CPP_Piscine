@@ -1,10 +1,11 @@
 #include <iostream>
 #include <stdexcept>
-#include "Bureaucrat.hpp"
 #include "AForm.hpp"
-#include "ShrubberyCreationForm.hpp"
-#include "RobotomyRequestForm.hpp"
+#include "Bureaucrat.hpp"
+#include "Intern.hpp"
 #include "PresidentialPardonForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "ShrubberyCreationForm.hpp"
 
 int main() {
   {
@@ -68,7 +69,8 @@ int main() {
   }
   {
     {
-      std::cout << std::endl << "------ ShrubberyCreationForm tests ------" << std::endl;
+      std::cout << std::endl
+                << "------ ShrubberyCreationForm tests ------" << std::endl;
       std::cout << "* test signing and execution" << std::endl;
       ShrubberyCreationForm f1("beta");
       Bureaucrat b1("Bob", 1);
@@ -88,7 +90,8 @@ int main() {
       }
     }
     {
-      std::cout << std::endl << "------ RobotomyRequestForm tests ------" << std::endl;
+      std::cout << std::endl
+                << "------ RobotomyRequestForm tests ------" << std::endl;
       std::cout << "* test signing and execution" << std::endl;
       RobotomyRequestForm f1("delta");
       Bureaucrat b1("Bob", 1);
@@ -108,7 +111,8 @@ int main() {
       }
     }
     {
-      std::cout << std::endl << "------ PresidentialPardonForm tests ------" << std::endl;
+      std::cout << std::endl
+                << "------ PresidentialPardonForm tests ------" << std::endl;
       std::cout << "* test signing and execution" << std::endl;
       PresidentialPardonForm f1("GuiltyMan");
       Bureaucrat b1("Bob", 1);
@@ -126,6 +130,46 @@ int main() {
         std::cout << "Caught exception while executing AForm: " << e.what()
                   << std::endl;
       }
+    }
+  }
+  {
+    std::cout << std::endl << "------ Intern tests ------" << std::endl;
+    Intern i;
+    Bureaucrat b("Bob", 1);
+    try {
+      std::cout << "* try Intern makeForm with unknown form" << std::endl;
+      AForm* form = i.makeForm("unknown form", "target");
+      b.signForm(*form);
+      b.executeForm(*form);
+    } catch (Intern::NoSuchFormException& e) {
+      std::cout << e.what() << std::endl;
+    }
+    try {
+      std::cout << "* try Intern makeForm with known form: shrubbery"
+                << std::endl;
+      AForm* form = i.makeForm("shrubbery creation", "target");
+      b.signForm(*form);
+      b.executeForm(*form);
+    } catch (Intern::NoSuchFormException& e) {
+      std::cout << e.what() << std::endl;
+    }
+    try {
+      std::cout << "* try Intern makeForm with known form: presidential"
+                << std::endl;
+      AForm* form = i.makeForm("presidential pardon", "target");
+      b.signForm(*form);
+      b.executeForm(*form);
+    } catch (Intern::NoSuchFormException& e) {
+      std::cout << e.what() << std::endl;
+    }
+    try {
+      std::cout << "* try Intern makeForm with known form: robotomy"
+                << std::endl;
+      AForm* form = i.makeForm("robotomy request", "target");
+      b.signForm(*form);
+      b.executeForm(*form);
+    } catch (Intern::NoSuchFormException& e) {
+      std::cout << e.what() << std::endl;
     }
   }
 }
