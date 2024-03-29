@@ -1,17 +1,19 @@
 CC			=	c++
 CFLAGS	=	-Wall -Wextra -Werror
-DFLAGS	=	-g
+DFLAGS	=	-g -DDEBUG
 NAME		=	convert
 
 SRC			=	main.cpp \
 					ScalarConverter.cpp
+
+INC			=	ScalarConverter.hpp
 
 OBJ			=	$(patsubst %.cpp, %.o, $(SRC))
 
 .PHONY: all
 all: $(NAME) Makefile
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) $(INC)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
 
 %.o: %.cpp
