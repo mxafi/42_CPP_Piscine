@@ -141,6 +141,7 @@ int main() {
       AForm* form = i.makeForm("unknown form", "target");
       b.signForm(*form);
       b.executeForm(*form);
+      delete form;
     } catch (Intern::NoSuchFormException& e) {
       std::cout << e.what() << std::endl;
     }
@@ -150,6 +151,7 @@ int main() {
       AForm* form = i.makeForm("shrubbery creation", "target");
       b.signForm(*form);
       b.executeForm(*form);
+      delete form;
     } catch (Intern::NoSuchFormException& e) {
       std::cout << e.what() << std::endl;
     }
@@ -159,6 +161,7 @@ int main() {
       AForm* form = i.makeForm("presidential pardon", "target");
       b.signForm(*form);
       b.executeForm(*form);
+      delete form;
     } catch (Intern::NoSuchFormException& e) {
       std::cout << e.what() << std::endl;
     }
@@ -168,6 +171,7 @@ int main() {
       AForm* form = i.makeForm("robotomy request", "target");
       b.signForm(*form);
       b.executeForm(*form);
+      delete form;
     } catch (Intern::NoSuchFormException& e) {
       std::cout << e.what() << std::endl;
     }
