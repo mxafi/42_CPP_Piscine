@@ -22,12 +22,6 @@ class Intern {
   Intern& operator=(Intern& other);
 
   AForm* makeForm(std::string name, std::string target);
-
-  class NoSuchFormException : public std::runtime_error {
-   public:
-    NoSuchFormException(std::string& msg) : std::runtime_error(msg){};
-    NoSuchFormException(const char* msg) : std::runtime_error(msg){};
-  };
 };
 
 #endif

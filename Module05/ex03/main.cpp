@@ -139,40 +139,48 @@ int main() {
     try {
       std::cout << "* try Intern makeForm with unknown form" << std::endl;
       AForm* form = i.makeForm("unknown form", "target");
-      b.signForm(*form);
-      b.executeForm(*form);
-      delete form;
-    } catch (Intern::NoSuchFormException& e) {
+      if (form) {
+        b.signForm(*form);
+        b.executeForm(*form);
+        delete form;
+      }
+    } catch (std::exception& e) {
       std::cout << e.what() << std::endl;
     }
     try {
       std::cout << "* try Intern makeForm with known form: shrubbery"
                 << std::endl;
       AForm* form = i.makeForm("shrubbery creation", "target");
-      b.signForm(*form);
-      b.executeForm(*form);
-      delete form;
-    } catch (Intern::NoSuchFormException& e) {
+      if (form) {
+        b.signForm(*form);
+        b.executeForm(*form);
+        delete form;
+      }
+    } catch (std::exception& e) {
       std::cout << e.what() << std::endl;
     }
     try {
       std::cout << "* try Intern makeForm with known form: presidential"
                 << std::endl;
       AForm* form = i.makeForm("presidential pardon", "target");
-      b.signForm(*form);
-      b.executeForm(*form);
-      delete form;
-    } catch (Intern::NoSuchFormException& e) {
+      if (form) {
+        b.signForm(*form);
+        b.executeForm(*form);
+        delete form;
+      }
+    } catch (std::exception& e) {
       std::cout << e.what() << std::endl;
     }
     try {
       std::cout << "* try Intern makeForm with known form: robotomy"
                 << std::endl;
       AForm* form = i.makeForm("robotomy request", "target");
-      b.signForm(*form);
-      b.executeForm(*form);
-      delete form;
-    } catch (Intern::NoSuchFormException& e) {
+      if (form) {
+        b.signForm(*form);
+        b.executeForm(*form);
+        delete form;
+      }
+    } catch (std::exception& e) {
       std::cout << e.what() << std::endl;
     }
   }

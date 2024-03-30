@@ -40,8 +40,8 @@ AForm* Intern::makeForm(std::string name, std::string target) {
       return form;
     }
   }
+  std::cout << "Error: Intern did not find a form with using the name: " << name
+            << std::endl;
 
-  throw NoSuchFormException(
-      std::string("NoSuchFormException: No form found with name: " + name)
-          .c_str());
+  return nullptr;
 }
