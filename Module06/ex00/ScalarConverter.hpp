@@ -42,12 +42,11 @@ class ScalarConverter {
   };
 
   ScalarType getScalarType(const std::string& input);
+  void setOutChar(const std::string& input);
+  void setOutInt(const std::string& input, ScalarType inputType);
+  void setOutFloat(const std::string& input, ScalarType inputType);
+  void setOutDouble(const std::string& input, ScalarType inputType);
   void printOutput();
-  void parseChar(const std::string& input);
-  void parseInt(const std::string& input);
-  void parseFloat(const std::string& input);
-  void parseDouble(const std::string& input);
-  bool isDisplayable(char c);
 
   ScalarType inputType;
   std::string outputStringChar;

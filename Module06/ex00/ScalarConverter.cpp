@@ -19,18 +19,6 @@ ScalarConverter::ScalarConverter(const std::string& input) {
   inputType = getScalarType(input);
   DEBUG_INPUT_ENUM_LABEL(inputType);
   switch (inputType) {
-    case CHAR:
-      parseChar(input);
-      break;
-    case INT:
-      parseInt(input);
-      break;
-    case FLOAT:
-      parseFloat(input);
-      break;
-    case DOUBLE:
-      parseDouble(input);
-      break;
     case INVALID:
       std::cout << "Invalid input" << std::endl;
       return;
@@ -44,6 +32,11 @@ ScalarConverter::ScalarConverter(const std::string& input) {
       // -inf or -inff
       break;
     default:
+      // numeric types (char, int, float, double)
+      setOutChar(input);
+      setOutInt(input, inputType);
+      setOutFloat(input, inputType);
+      setOutDouble(input, inputType);
       break;
   }
   printOutput();
@@ -71,8 +64,8 @@ ScalarConverter::ScalarType ScalarConverter::getScalarType(
   }
   if (input.find_first_not_of("0123456789-.f") != std::string::npos) {
     LOG_DEBUG(
-        "ScalarConverter::getScalarType: found a non-numeric character that is "
-        "not minus, dot, or f, invalid");
+        "ScalarConverter::getScalarType: found a non-numeric character or "
+        "non-ascii char that is not minus, dot, or f, invalid");
     return INVALID;
   }
   LOG_DEBUG("ScalarConverter::getScalarType: input is possibly a number");
@@ -171,40 +164,45 @@ void ScalarConverter::printOutput() {
   std::cout << "double: " << outputStringDouble << std::endl;
 }
 
-void ScalarConverter::parseChar(const std::string& input) {
-  outputStringChar = input[1];
-  outputStringInt = std::to_string(static_cast<int>(input[1]));
-  outputStringFloat = std::to_string(static_cast<float>(input[1])) + "f";
-  outputStringDouble = std::to_string(static_cast<double>(input[1]));
-}
-
-void ScalarConverter::parseInt(const std::string& input) {
+void ScalarConverter::setOutChar(const std::string& input) {
   try {
     int i = std::stoi(input);
-    outputStringInt = std::to_string(i);
+    if (i >= 33 && i <= 126) {
+      LOG_DEBUG("ScalarConverter::setOutChar: i is in displayable char range");
+      outputStringChar = std::to_string(static_cast<char>(i));
+      return;
+    }
+    if (i >= 0 && i <= 127) {
+      LOG_DEBUG(
+          "ScalarConverter::setOutChar: i is in ascii range but not "
+          "displayable");
+      outputStringChar = "non-displayable";
+      return;
+    }
+    LOG_DEBUG("ScalarConverter::setOutChar: i is not in ascii char range");
+    outputStringChar = "impossible";
+    return;
   } catch (std::exception& e) {
-    outputStringInt = "impossible";
+    LOG_DEBUG("ScalarConverter::setOutChar: stoi out of range for int");
+    outputStringChar = "impossible";
+    return;
   }
 }
 
-void ScalarConverter::parseFloat(const std::string& input) {
-  try {
-    float f = std::stof(input);
-    outputStringFloat = std::to_string(f);
-  } catch (std::exception& e) {
-    outputStringFloat = "impossible";
-  }
+void ScalarConverter::setOutInt(const std::string& input,
+                                ScalarType inputType) {
+  (void)input;
+  (void)inputType;
 }
 
-void ScalarConverter::parseDouble(const std::string& input) {
-  try {
-    double d = std::stod(input);
-    outputStringDouble = std::to_string(d);
-  } catch (std::exception& e) {
-    outputStringDouble = "impossible";
-  }
+void ScalarConverter::setOutFloat(const std::string& input,
+                                  ScalarType inputType) {
+  (void)input;
+  (void)inputType;
 }
 
-bool isDisplayable(char c) {
-  return (c >= 32 && c <= 126);
+void ScalarConverter::setOutDouble(const std::string& input,
+                                   ScalarType inputType) {
+  (void)input;
+  (void)inputType;
 }
