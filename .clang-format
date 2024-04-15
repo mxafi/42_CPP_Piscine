@@ -81,5 +81,5 @@ SpacesInContainerLiterals: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
 Standard: c++03 # Reasonable since it's c++98 with corrections
-TabWidth: 4
+TabWidth: 2
 UseTab: Never
