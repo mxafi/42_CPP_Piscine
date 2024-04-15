@@ -18,3 +18,10 @@ materia
 bureaucrat
 *_shrubbery
 convert
+cmdline
+plot_data
+id:*
+*seed*
+*input*
+*out*
+*fuzz*
