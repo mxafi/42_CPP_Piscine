@@ -1,6 +1,10 @@
 .PHONY: all
-all: gclean
+all: gclean reset
 
 .PHONY: gclean
 gclean:
-	git clean -Xdf
+	git clean -xdf
+
+.PHONY: reset
+reset:
+	git reset --hard
