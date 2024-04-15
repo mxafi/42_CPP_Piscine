@@ -24,5 +24,12 @@ int main(void) {
   assert(input->a == output->a);
   assert(input->b == output->b);
   assert(input->c == output->c);
+  output->a = 'y';
+  output->b = 43;
+  output->c = "Goodbye, World!";
+  printData(output, "modif");
+  assert(output->a == 'y');
+  assert(output->b == 43);
+  assert(output->c == "Goodbye, World!");
   delete output;
 }
