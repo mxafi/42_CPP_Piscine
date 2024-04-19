@@ -1,6 +1,6 @@
+#include <assert.h>
 #include <iostream>
 #include <string>
-#include <assert.h>
 
 #include "whatever.hpp"
 
@@ -34,17 +34,45 @@ int main(void) {
   // and max(a, b) should return a
   // and min(a, c) should return c
   // and max(a, c) should return c
-  int a = 42;
-  int b = 21;
-  int c = a;
+  {
+    int a = 42;
+    int b = 21;
+    int c = a;
 
-  assert(::min(a, b) == b);
-  assert(::max(a, b) == a);
-  assert(::min(a, c) == c);
-  assert(::max(a, c) == c);
-  swap(a, b);
-  assert(a == 21);
-  assert(b == 42);
+    assert(::min(a, b) == b);
+    assert(::max(a, b) == a);
+    assert(::min(a, c) == c);
+    assert(::max(a, c) == c);
+    ::swap(a, b);
+    assert(a == 21);
+    assert(b == c);
+  }
+  {
+    double a = 42;
+    double b = 21;
+    double c = a;
+
+    assert(::min(a, b) == b);
+    assert(::max(a, b) == a);
+    assert(::min(a, c) == c);
+    assert(::max(a, c) == c);
+    ::swap(a, b);
+    assert(a == 21);
+    assert(b == c);
+  }
+  {
+    std::string a = "hello world";
+    std::string b = "hello back";
+    std::string c = a;
+
+    assert(::min(a, b) == b);
+    assert(::max(a, b) == a);
+    assert(::min(a, c) == c);
+    assert(::max(a, c) == c);
+    ::swap(a, b);
+    assert(a == "hello back");
+    assert(b == c);
+  }
 
   std::cout << "==== END TESTS ==============" << std::endl;
 }
