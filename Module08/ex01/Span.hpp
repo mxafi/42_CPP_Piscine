@@ -1,9 +1,10 @@
 #ifndef SPAN_HPP
 #define SPAN_HPP
 
-#include <vector>
-#include <stdexcept>
 #include <algorithm>
+#include <limits>
+#include <stdexcept>
+#include <vector>
 
 #define SPAN_DEFAULT_SIZE 1000
 
@@ -15,9 +16,9 @@ class Span {
   Span(unsigned int n);
   void addNumber(int n);
   void addNumber(std::vector<int>::iterator begin,
-                std::vector<int>::iterator end);
-  int shortestSpan();
-  int longestSpan();
+                 std::vector<int>::iterator end);
+  unsigned int shortestSpan();
+  unsigned int longestSpan();
 
  private:
   Span();

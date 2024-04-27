@@ -31,19 +31,24 @@ void Span::addNumber(std::vector<int>::iterator begin,
   _span.insert(_span.end(), begin, end);
 }
 
-int Span::shortestSpan() {
+unsigned int Span::shortestSpan() {
   if (_span.size() < 2) {
     throw std::runtime_error("Span has less than 2 elements");
   }
   std::sort(_span.begin(), _span.end());
-  return 0; // FIXME
+  unsigned int shortest = std::numeric_limits<unsigned int>::max();
+  for (unsigned int i = 1; i < _size; i++) {
+    shortest = std::min(shortest, static_cast<unsigned int>(_span[i] - _span[i - 1]));
+  }
+  return shortest;
 }
 
-int Span::longestSpan() {
+unsigned int Span::longestSpan() {
   if (_span.size() < 2) {
     throw std::runtime_error("Span has less than 2 elements");
   }
-  return 0; // FIXME
+  std::sort(_span.begin(), _span.end());
+  return _span.back() - _span.front();
 }
 
 Span::Span() : _size(SPAN_DEFAULT_SIZE) {
