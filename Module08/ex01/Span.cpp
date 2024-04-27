@@ -13,7 +13,7 @@ Span& Span::operator=(Span& other) {
 }
 
 Span::Span(unsigned int n) : _size(n) {
-  _span.resize(n);
+  _span.reserve(n);
 }
 
 void Span::addNumber(int n) {
@@ -52,5 +52,5 @@ unsigned int Span::longestSpan() {
 }
 
 Span::Span() : _size(SPAN_DEFAULT_SIZE) {
-  _span.resize(SPAN_DEFAULT_SIZE);
+  _span.reserve(SPAN_DEFAULT_SIZE);
 }
