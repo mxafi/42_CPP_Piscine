@@ -22,8 +22,8 @@ class BitcoinExchange {
   BitcoinExchange();
   void validateFilePath(const std::string& meta, const std::string& path) const;
   void readDatabaseIntoMemory(const std::string& databasePath);
-  bool isValidDateString(const std::string& date) const noexcept;
-  void processInputFile(const std::string& inputPath) const noexcept;
+  bool isValidDateString(const std::string& date) const;
+  void processInputFile(const std::string& inputPath) const;
 
   std::map<std::string, double> _rates;
 };

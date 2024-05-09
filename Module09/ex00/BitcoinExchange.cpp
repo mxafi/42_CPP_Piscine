@@ -86,8 +86,7 @@ void BitcoinExchange::readDatabaseIntoMemory(const std::string& databasePath) {
 
 // Checks if the date string is in the format YYYY-MM-DD
 // And if the date is a real date
-bool BitcoinExchange::isValidDateString(
-    const std::string& date) const noexcept {
+bool BitcoinExchange::isValidDateString(const std::string& date) const {
   std::string yearStr, monthStr, dayStr;
   if (date.size() != 10) {
     return false;
@@ -137,7 +136,6 @@ bool BitcoinExchange::isValidDateString(
   return true;
 }
 
-void BitcoinExchange::processInputFile(
-    const std::string& inputPath) const noexcept {
+void BitcoinExchange::processInputFile(const std::string& inputPath) const {
   // TODO: process input file one line at a time, don't throw exceptions
 }
