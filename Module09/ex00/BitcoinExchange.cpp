@@ -79,7 +79,8 @@ void BitcoinExchange::readDatabaseIntoMemory(const std::string& databasePath) {
     lineNum++;
   }
   if (!file.eof()) {
-    throw std::invalid_argument("corrupt database file: " + databasePath);
+    throw std::invalid_argument("corrupt database file or read interrupted: " +
+                                databasePath);
   }
   file.close();
 }
@@ -137,5 +138,24 @@ bool BitcoinExchange::isValidDateString(const std::string& date) const {
 }
 
 void BitcoinExchange::processInputFile(const std::string& inputPath) const {
-  // TODO: process input file one line at a time, don't throw exceptions
+  std::ifstream file(inputPath);
+  std::string line;
+
+  std::getline(file, line);  // Skip the input header
+
+  unsigned long lineNum = 2;
+  while (file.good() && std::getline(file, line)) {
+    processInputLine(line, lineNum);
+    lineNum++;
+  }
+  if (!file.eof()) {
+    throw std::invalid_argument("corrupt input file or read interrupted: " +
+                                inputPath);
+  }
+  file.close();
+}
+
+void BitcoinExchange::processInputLine(const std::string& line,
+                                       const unsigned long lineNum) const {
+  // TODO
 }

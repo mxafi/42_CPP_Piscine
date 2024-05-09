@@ -24,6 +24,8 @@ class BitcoinExchange {
   void readDatabaseIntoMemory(const std::string& databasePath);
   bool isValidDateString(const std::string& date) const;
   void processInputFile(const std::string& inputPath) const;
+  void processInputLine(const std::string& line,
+                        const unsigned long lineNum) const;
 
   std::map<std::string, double> _rates;
 };
