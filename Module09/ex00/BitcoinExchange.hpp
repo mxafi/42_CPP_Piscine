@@ -1,6 +1,8 @@
 #ifndef BITCOINEXCHANGE_HPP
 #define BITCOINEXCHANGE_HPP
 
+#include <algorithm>
+#include <cctype>
 #include <ctime>
 #include <fstream>
 #include <iomanip>
@@ -9,6 +11,16 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+
+#define LINE_ERROR(line_number, message)                           \
+  {                                                                \
+    std::cerr << "Error (line " << line_number << "): " << message \
+              << std::endl;                                        \
+    return;                                                        \
+  }
+
+#define LINE_MSG(date, value, result) \
+  { std::cout << date << " => " << value << " = " << result << std::endl; }
 
 class BitcoinExchange {
  public:

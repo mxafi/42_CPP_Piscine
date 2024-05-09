@@ -155,7 +155,31 @@ void BitcoinExchange::processInputFile(const std::string& inputPath) const {
   file.close();
 }
 
+struct isSpace {
+  bool operator()(unsigned char c) { return std::isspace(c); }
+};
+
 void BitcoinExchange::processInputLine(const std::string& line,
                                        const unsigned long lineNum) const {
+  std::string cleanStr = line;
+  std::string dateStr;
+  std::string valueStr;
+
+  // Remove all whitespace from the line
+  cleanStr.erase(std::remove_if(cleanStr.begin(), cleanStr.end(), isSpace()),
+                 cleanStr.end());
+
+  size_t pos = cleanStr.find('|');
+  if (pos == std::string::npos) {
+    LINE_ERROR(lineNum, "bad input => " + line);
+  }
+  dateStr = cleanStr.substr(0, pos);
+  if (!isValidDateString(dateStr)) {
+    LINE_ERROR(lineNum, "invalid date => " + dateStr);
+  }
+  valueStr = cleanStr.substr(pos + 1);
+  if (valueStr.empty()) {
+    LINE_ERROR(lineNum, "missing value => " + line);
+  }
   // TODO
 }
