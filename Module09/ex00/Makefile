@@ -1,6 +1,6 @@
 CC				=	c++
 CFLAGS		=	-Wall -Wextra -Werror
-DFLAGS		=	-g3 -DDEBUG
+DFLAGS		=	-g3 -DDEBUG -DDATABASE_FILE=\"testdb.csv\"
 SANFLG		=	-fsanitize=address,undefined
 NAME			=	btc
 
