@@ -14,20 +14,29 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& other) {
 }
 
 BitcoinExchange::BitcoinExchange(const std::string& databasePath, const std::string& inputPath) {
-  validateFilePath("database", databasePath);
-  validateFilePath("input", inputPath);
+  validateFile("database", databasePath);
+  validateFile("input", inputPath);
   readDatabaseIntoMemory(databasePath);
   processInputFile(inputPath);
 }
 
-void BitcoinExchange::validateFilePath(const std::string& meta, const std::string& path) const {
+void BitcoinExchange::validateFile(const std::string& meta, const std::string& path) const {
   // Check that the file is good for reading
   if (path.empty()) {
-    throw std::invalid_argument("empty file path (" + meta + ")");
+    throw std::invalid_argument("empty " + meta + " file path (" + path + ")");
   }
   std::ifstream file(path);
   if (!file.good()) {
     throw std::invalid_argument("could not open " + meta + " file for reading (" + path + ")");
+  }
+  // Check that the file is not empty
+  if (file.peek() == std::ifstream::traits_type::eof()) {
+    throw std::invalid_argument("empty " + meta + " file (" + path + ")");
+  }
+  std::string line;
+  std::getline(file, line);  // Skip the header
+  if (file.peek() == std::ifstream::traits_type::eof()) {
+    throw std::invalid_argument(meta + " file contains no rows after the header (" + path + ")");
   }
   file.close();
 }
@@ -36,19 +45,33 @@ void BitcoinExchange::readDatabaseIntoMemory(const std::string& databasePath) {
   std::ifstream file(databasePath);
   std::string line;
 
-  std::getline(file, line);  // Skip the csv header
+  std::getline(file, line);  // Get the csv header
 
   size_t pos;
   std::string date;
   std::string rateStr;
   double rate;
 
+  pos = line.find(',');
+  if (pos == std::string::npos) {
+    throw std::invalid_argument("invalid database file format, missing comma in header");
+  }
+  if (line.find_first_of("0123456789") != std::string::npos) {
+    throw std::invalid_argument("invalid database file format, header date or rate contains numeric characters");
+  }
+
   unsigned long lineNum = 2;
   while (file.good() && std::getline(file, line)) {
+
+#if STRICT_MODE != 1
+
     if (line.empty()) {
       lineNum++;
       continue;
     }
+
+#endif
+
     pos = line.find(',');
     if (pos == std::string::npos) {
       throw std::invalid_argument("invalid database file format, missing comma on line " + std::to_string(lineNum));
@@ -131,6 +154,14 @@ void BitcoinExchange::processInputFile(const std::string& inputPath) const {
   std::string line;
 
   std::getline(file, line);  // Skip the input header
+
+  size_t pos = line.find('|');
+  if (pos == std::string::npos) {
+    throw std::invalid_argument("invalid input file format, missing comma in header");
+  }
+  if (line.find_first_of("0123456789") != std::string::npos) {
+    throw std::invalid_argument("invalid input file format, header date or value contains numeric characters");
+  }
 
   unsigned long lineNum = 2;
   while (file.good() && std::getline(file, line)) {
@@ -236,11 +267,10 @@ const std::string BitcoinExchange::findClosestDate(const std::string& date) cons
   int month = std::stoi(date.substr(5, 2));
   int day = std::stoi(date.substr(8, 2));
   for (; year > 2008; year--) {
-    for (;month > 0; month--) {
+    for (; month > 0; month--) {
       for (; day > 0; day--) {
         std::stringstream ss;
-        ss << year << "-" << std::setw(2) << std::setfill('0') << month << "-" << std::setw(2)
-           << std::setfill('0') << day;
+        ss << year << "-" << std::setw(2) << std::setfill('0') << month << "-" << std::setw(2) << std::setfill('0') << day;
         std::string newDate = ss.str();
         if (_rates.count(newDate) > 0) {
           return newDate;

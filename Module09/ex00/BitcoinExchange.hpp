@@ -35,7 +35,7 @@ class BitcoinExchange {
 
  private:
   BitcoinExchange();
-  void validateFilePath(const std::string& meta, const std::string& path) const;
+  void validateFile(const std::string& meta, const std::string& path) const;
   void readDatabaseIntoMemory(const std::string& databasePath);
   bool isValidDateString(const std::string& date) const;
   void processInputFile(const std::string& inputPath) const;
