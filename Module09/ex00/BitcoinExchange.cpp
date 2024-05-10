@@ -228,23 +228,27 @@ void BitcoinExchange::processInputLine(const std::string& line, const unsigned l
   }
 }
 
-const std::string& BitcoinExchange::findClosestDate(const std::string& date) const {
+const std::string BitcoinExchange::findClosestDate(const std::string& date) const {
   if (_rates.count(date) > 0) {
     return date;
   }
-  // TODO: Search from the given date to the past, cutoff at 2008
-  // One idea is a tm struct that can be decremented
-  // Another idea is to convert the date to a number and decrement it
-  // Remember to zero pad the month and day
   int year = std::stoi(date.substr(0, 4));
   int month = std::stoi(date.substr(5, 2));
   int day = std::stoi(date.substr(8, 2));
-  for (year; year > 2008; year--) {
-    std::string newDate = std::to_string(year) + date.substr(4);
-    if (_rates.count(newDate) > 0) {
-      return newDate;
+  for (; year > 2008; year--) {
+    for (;month > 0; month--) {
+      for (; day > 0; day--) {
+        std::stringstream ss;
+        ss << year << "-" << std::setw(2) << std::setfill('0') << month << "-" << std::setw(2)
+           << std::setfill('0') << day;
+        std::string newDate = ss.str();
+        if (_rates.count(newDate) > 0) {
+          return newDate;
+        }
+      }
+      day = 31;
     }
+    month = 12;
   }
-
   return "invalid";
 }

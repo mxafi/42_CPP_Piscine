@@ -40,7 +40,7 @@ class BitcoinExchange {
   bool isValidDateString(const std::string& date) const;
   void processInputFile(const std::string& inputPath) const;
   void processInputLine(const std::string& line, const unsigned long lineNum) const;
-  const std::string& findClosestDate(const std::string& date) const;
+  const std::string findClosestDate(const std::string& date) const;
 
   std::map<std::string, double> _rates;
 };
