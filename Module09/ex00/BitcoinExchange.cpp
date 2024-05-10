@@ -13,24 +13,21 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& other) {
   return *this;
 }
 
-BitcoinExchange::BitcoinExchange(const std::string& databasePath,
-                                 const std::string& inputPath) {
+BitcoinExchange::BitcoinExchange(const std::string& databasePath, const std::string& inputPath) {
   validateFilePath("database", databasePath);
   validateFilePath("input", inputPath);
   readDatabaseIntoMemory(databasePath);
   processInputFile(inputPath);
 }
 
-void BitcoinExchange::validateFilePath(const std::string& meta,
-                                       const std::string& path) const {
+void BitcoinExchange::validateFilePath(const std::string& meta, const std::string& path) const {
   // Check that the file is good for reading
   if (path.empty()) {
     throw std::invalid_argument("empty file path (" + meta + ")");
   }
   std::ifstream file(path);
   if (!file.good()) {
-    throw std::invalid_argument("could not open " + meta +
-                                " file for reading (" + path + ")");
+    throw std::invalid_argument("could not open " + meta + " file for reading (" + path + ")");
   }
   file.close();
 }
@@ -48,39 +45,34 @@ void BitcoinExchange::readDatabaseIntoMemory(const std::string& databasePath) {
 
   unsigned long lineNum = 2;
   while (file.good() && std::getline(file, line)) {
+    if (line.empty()) {
+      lineNum++;
+      continue;
+    }
     pos = line.find(',');
     if (pos == std::string::npos) {
-      throw std::invalid_argument(
-          "invalid database file format, missing comma on line " +
-          std::to_string(lineNum));
+      throw std::invalid_argument("invalid database file format, missing comma on line " + std::to_string(lineNum));
     }
     date = line.substr(0, pos);
     if (!isValidDateString(date))
-      throw std::invalid_argument(
-          "invalid database file format, invalid date on line " +
-          std::to_string(lineNum) + " => " + date);
+      throw std::invalid_argument("invalid database file format, invalid date on line " + std::to_string(lineNum) + " => " + date);
 
     try {
       rateStr = line.substr(pos + 1);
     } catch (const std::exception& e) {
-      throw std::invalid_argument(
-          "invalid database file format, missing rate on line " +
-          std::to_string(lineNum));
+      throw std::invalid_argument("invalid database file format, missing rate on line " + std::to_string(lineNum));
     }
     try {
       rate = std::stod(rateStr);
     } catch (const std::exception& e) {
-      throw std::invalid_argument(
-          "invalid database file format, invalid rate on line " +
-          std::to_string(lineNum) + " => " + rateStr);
+      throw std::invalid_argument("invalid database file format, invalid rate on line " + std::to_string(lineNum) + " => " + rateStr);
     }
 
     _rates[date] = rate;
     lineNum++;
   }
   if (!file.eof()) {
-    throw std::invalid_argument("corrupt database file or read interrupted: " +
-                                databasePath);
+    throw std::invalid_argument("corrupt database file or read interrupted: " + databasePath);
   }
   file.close();
 }
@@ -98,8 +90,7 @@ bool BitcoinExchange::isValidDateString(const std::string& date) const {
   yearStr = date.substr(0, 4);
   monthStr = date.substr(5, 2);
   dayStr = date.substr(8, 2);
-  if (yearStr.find_first_not_of("0123456789") != std::string::npos ||
-      monthStr.find_first_not_of("0123456789") != std::string::npos ||
+  if (yearStr.find_first_not_of("0123456789") != std::string::npos || monthStr.find_first_not_of("0123456789") != std::string::npos ||
       dayStr.find_first_not_of("0123456789") != std::string::npos) {
     return false;
   }
@@ -129,9 +120,7 @@ bool BitcoinExchange::isValidDateString(const std::string& date) const {
     return false;
   }
 
-  if (inputTime.tm_year != validTime.tm_year ||
-      inputTime.tm_mon != validTime.tm_mon ||
-      inputTime.tm_mday != validTime.tm_mday) {
+  if (inputTime.tm_year != validTime.tm_year || inputTime.tm_mon != validTime.tm_mon || inputTime.tm_mday != validTime.tm_mday) {
     return false;
   }
   return true;
@@ -149,37 +138,113 @@ void BitcoinExchange::processInputFile(const std::string& inputPath) const {
     lineNum++;
   }
   if (!file.eof()) {
-    throw std::invalid_argument("corrupt input file or read interrupted: " +
-                                inputPath);
+    throw std::invalid_argument("corrupt input file or read interrupted: " + inputPath);
   }
   file.close();
 }
 
-struct isSpace {
+struct IsSpace {
   bool operator()(unsigned char c) { return std::isspace(c); }
 };
 
-void BitcoinExchange::processInputLine(const std::string& line,
-                                       const unsigned long lineNum) const {
+void BitcoinExchange::processInputLine(const std::string& line, const unsigned long lineNum) const {
   std::string cleanStr = line;
   std::string dateStr;
   std::string valueStr;
 
   // Remove all whitespace from the line
-  cleanStr.erase(std::remove_if(cleanStr.begin(), cleanStr.end(), isSpace()),
-                 cleanStr.end());
+  cleanStr.erase(std::remove_if(cleanStr.begin(), cleanStr.end(), IsSpace()), cleanStr.end());
+
+#if STRICT_MODE == 1
+
+  if (cleanStr.empty()) {
+    LINE_ERROR(lineNum, "empty line" + line);
+  }
+
+#else
+
+  if (cleanStr.empty()) {
+    return;
+  }
+
+#endif
 
   size_t pos = cleanStr.find('|');
   if (pos == std::string::npos) {
     LINE_ERROR(lineNum, "bad input => " + line);
   }
   dateStr = cleanStr.substr(0, pos);
+  if (dateStr.empty()) {
+    LINE_ERROR(lineNum, "missing date => " + line);
+  }
   if (!isValidDateString(dateStr)) {
-    LINE_ERROR(lineNum, "invalid date => " + dateStr);
+    LINE_ERROR(lineNum, "invalid date => " + line);
   }
   valueStr = cleanStr.substr(pos + 1);
   if (valueStr.empty()) {
     LINE_ERROR(lineNum, "missing value => " + line);
   }
-  // TODO
+
+#if STRICT_MODE == 1
+
+  if (valueStr.find_first_not_of("0123456789.") != std::string::npos) {
+    if (valueStr.length() == 1) {
+      LINE_ERROR(lineNum, "invalid value, single non-numeric => " + line);
+    }
+    if (valueStr[0] != '-' && valueStr[0] != '+') {
+      LINE_ERROR(lineNum, "invalid value, only + or - prefix allowed => " + line);
+    }
+    if (valueStr.substr(1).find_first_not_of("0123456789.") != std::string::npos) {
+      LINE_ERROR(lineNum, "invalid value, non-numeric after prefix => " + line);
+    }
+  }
+  if (valueStr.find_first_of(".") != valueStr.find_last_of(".")) {
+    LINE_ERROR(lineNum, "invalid value, multiple decimal points => " + line);
+  }
+
+#endif
+
+  double value;
+  try {
+    value = std::stod(valueStr);
+  } catch (const std::invalid_argument& e) {
+    LINE_ERROR(lineNum, "invalid value, invalid argument => " + line);
+  } catch (const std::out_of_range& e) {
+    LINE_ERROR(lineNum, "invalid value, out of range => " + line);
+  }
+  if (value < 0) {
+    LINE_ERROR(lineNum, "value not positive => " + line);
+  }
+  if (value < 0 || value > 1000) {
+    LINE_ERROR(lineNum, "value too large => " + line);
+  }
+  std::string closestDate = findClosestDate(dateStr);
+  try {
+    double rate = _rates.at(closestDate);
+    double result = value * rate;  // can be inf
+    LINE_MSG(dateStr, value, result);
+  } catch (const std::out_of_range& e) {
+    LINE_ERROR(lineNum, "bad input => " + line);
+  }
+}
+
+const std::string& BitcoinExchange::findClosestDate(const std::string& date) const {
+  if (_rates.count(date) > 0) {
+    return date;
+  }
+  // TODO: Search from the given date to the past, cutoff at 2008
+  // One idea is a tm struct that can be decremented
+  // Another idea is to convert the date to a number and decrement it
+  // Remember to zero pad the month and day
+  int year = std::stoi(date.substr(0, 4));
+  int month = std::stoi(date.substr(5, 2));
+  int day = std::stoi(date.substr(8, 2));
+  for (year; year > 2008; year--) {
+    std::string newDate = std::to_string(year) + date.substr(4);
+    if (_rates.count(newDate) > 0) {
+      return newDate;
+    }
+  }
+
+  return "invalid";
 }

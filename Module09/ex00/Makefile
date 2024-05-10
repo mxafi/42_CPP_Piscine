@@ -51,5 +51,5 @@ leaks: fclean all
 	leaks -atExit -- ./$(NAME) input.txt
 
 .PHONY: run
-run: all
+run: $(NAME)
 	./$(NAME) input.txt
