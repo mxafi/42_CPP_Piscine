@@ -48,8 +48,8 @@ sanitize: fclean all
 .PHONY: leaks
 leaks: CFLAGS += $(DFLAGS)
 leaks: fclean all
-	leaks -atExit -- ./$(NAME) input.txt
+	leaks -atExit -- ./$(NAME) "8 9 * 9 - 9 - 9 - 4 - 1 +"
 
 .PHONY: run
 run: $(NAME)
-	./$(NAME)
+	./$(NAME) "8 9 * 9 - 9 - 9 - 4 - 1 +"
