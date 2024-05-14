@@ -4,6 +4,9 @@
 #include "PmergeMe.hpp"
 #include "color.h"
 
+#define ERROR_MSG(source, message) \
+  { std::cerr << RED << "Error (" << source << "): " << message << RESET << std::endl; }
+
 int main(int ac, char** av) {
   if (ac < 2) {
     std::cerr << RED << "Usage: " << av[0] << " <space delimited positive integer sequence>" << RESET << std::endl;
