@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>
+#include <string>
 
 #include "PmergeMe.hpp"
 #include "color.h"
