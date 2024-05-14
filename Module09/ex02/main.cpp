@@ -1,10 +1,36 @@
-// Requirements:
-// Your program must be able to use a positive integer sequence as argument.
-// Your program must use the merge-insert sort algorithm to sort the positive integer sequence.
-// The algorithm must be the Ford-Johnson algorithm.
+#include <iostream>
+#include <stdexcept>
 
-// TODO: Have a PmergeMe class that can be instantiated
-// with a input vector or deque of integers.
-// The class should have a run method that will sort the input
-// the run method should return a sorted vector or deque of integers.
-// The main should time the runs for vector and deque.
+#include "PmergeMe.hpp"
+#include "color.h"
+
+int main(int ac, char** av) {
+  if (ac < 2) {
+    std::cerr << RED << "Usage: " << av[0] << " <space delimited positive integer sequence>" << RESET << std::endl;
+    return 1;
+  }
+  if (ac == 2) {
+    ERROR_MSG("input", "single argument is always sorted");
+    return 1;
+  }
+  for (int i = 1; i < ac; i++) {
+    if (av[i][0] == '\0') {
+      ERROR_MSG("input", "empty argument is not allowed");
+      return 1;
+    }
+  }
+  PmergeMe pm;
+  try {
+    pm.load(ac, av);
+  } catch (const std::exception& e) {
+    ERROR_MSG("input", e.what());
+    return 1;
+  }
+  try {
+    pm.run();
+  } catch (const std::exception& e) {
+    ERROR_MSG("processing", e.what());
+    return 1;
+  }
+  return 0;
+}
