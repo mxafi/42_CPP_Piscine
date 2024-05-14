@@ -1,7 +1,9 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
+#include <chrono>
 #include <deque>
+#include <iomanip>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -15,6 +17,8 @@ class PmergeMe {
   std::deque<int> _testDeq;
 
   bool _isLoaded;
+  double _vecSortTimeUs;
+  double _deqSortTimeUs;
 
  public:
   ~PmergeMe();
