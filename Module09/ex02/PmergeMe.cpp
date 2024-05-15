@@ -82,11 +82,24 @@ void PmergeMe::run() {
       throw std::runtime_error("vector and deque elements do not match after sorting");
     }
   }
-  // for (size_t i = 0; i < sortedVec.size() - 1; i++) {
-  //   if (sortedVec[i] > sortedVec[i + 1]) {
-  //     throw std::runtime_error("containers are not sorted");
-  //   }
-  // }
+  bool vecSorted = true;
+  for (size_t i = 0; i < sortedVec.size() - 1; i++) {
+    if (sortedVec[i] > sortedVec[i + 1]) {
+      // throw std::runtime_error("containers are not sorted");
+      vecSorted = false;
+    }
+  }
+  if (!vecSorted)
+    std::cout << MAGENTA << "Warning: vec not sorted" << RESET << std::endl;
+  bool deqSorted = true;
+  for (size_t i = 0; i < sortedDeq.size() - 1; i++) {
+    if (sortedDeq[i] > sortedDeq[i + 1]) {
+      // throw std::runtime_error("containers are not sorted");
+      deqSorted = false;
+    }
+  }
+  if (!deqSorted)
+    std::cout << MAGENTA << "Warning: deq not sorted" << RESET << std::endl;
 
   std::cout << YELLOW << "After : ";
   for (int i : sortedVec) {
