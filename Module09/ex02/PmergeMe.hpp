@@ -1,6 +1,7 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
+#include <algorithm>
 #include <chrono>
 #include <deque>
 #include <iomanip>
@@ -28,7 +29,16 @@ class PmergeMe {
   bool _isSorted(const T& container);
 
   template <typename T>
-  void _sortLarge(T& container, size_t left, size_t right);
+  void _sortLarge(T& pairs, size_t left, size_t right);
+
+  template <typename T, typename P>
+  void _sortRest(T& sortedRet, P& pairs, const T& input, bool isOdd);
+
+  template <typename T>
+  void _insert(T& dst, int value);
+
+  template <typename Container>
+  struct PairContainer;
 
  public:
   ~PmergeMe();

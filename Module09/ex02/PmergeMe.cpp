@@ -3,11 +3,52 @@
 template std::vector<int> PmergeMe::_sort(const std::vector<int>& container);
 template std::deque<int> PmergeMe::_sort(const std::deque<int>& container);
 
-template void PmergeMe::_sortLarge(std::vector<int>& container, size_t left, size_t right);
-template void PmergeMe::_sortLarge(std::deque<int>& container, size_t left, size_t right);
+// template void PmergeMe::_sortLarge(std::vector<int>& container, size_t left, size_t right);
+// template void PmergeMe::_sortLarge(std::deque<int>& container, size_t left, size_t right);
 
 template bool PmergeMe::_isSorted(const std::vector<int>& container);
 template bool PmergeMe::_isSorted(const std::deque<int>& container);
+
+template <typename T, typename Alloc>
+struct PmergeMe::PairContainer<std::vector<T, Alloc> > {
+  using type = std::vector<std::pair<int, int>, typename Alloc::template rebind<std::pair<int, int> >::other>;
+};
+
+template <typename T, typename Alloc>
+struct PmergeMe::PairContainer<std::deque<T, Alloc> > {
+  using type = std::deque<std::pair<int, int>, typename Alloc::template rebind<std::pair<int, int> >::other>;
+};
+
+// static utility functions
+
+template <typename Pair>
+static void printPairs(const Pair& container) {
+  for (const auto& p : container) {
+    std::cout << p.first << "," << p.second << " ";
+  }
+  std::cout << std::endl;
+}
+
+template <typename Pair, typename Container>
+static Container unpair(const Pair& pairs) {
+  Container container;
+  size_t n = pairs.size();
+  for (size_t i = 0; i < n; i++) {
+    container.push_back(pairs[i].first);
+    container.push_back(pairs[i].second);
+  }
+  return container;
+}
+
+template <typename T>
+static void printContainer(const T& container) {
+  for (int i : container) {
+    std::cout << i << " ";
+  }
+  std::cout << std::endl;
+}
+
+// end of static utility functions
 
 PmergeMe::~PmergeMe() {}
 
@@ -115,36 +156,47 @@ void PmergeMe::run() {
 template <typename T>
 T PmergeMe::_sort(const T& container) {
   bool isOdd = container.size() % 2;
-  std::cout << "isOdd: " << isOdd << std::endl;
   size_t half_n = container.size() / 2;  // excludes the odd case
-  std::cout << "half_n: " << half_n << std::endl;
 
   if (container.size() < 2) {
     return container;
   }
 
-  // form pairs excluding the odd case, e.g. 1, 2, 3, 4, 5 -> 2, 1, 4, 3
-  T pairs = container;
+  // form pairs excluding the odd case, first element of the pair is the larger one
+  typename PairContainer<T>::type pairs;
   for (size_t i = 0; i < half_n * 2; i += 2) {
-    if (pairs[i] < pairs[i + 1]) {
-      std::swap(pairs[i], pairs[i + 1]);
+    if (container[i] > container[i + 1]) {
+      pairs.push_back(std::make_pair(container[i], container[i + 1]));
+    } else {
+      pairs.push_back(std::make_pair(container[i + 1], container[i]));
     }
   }
-  // now the larger elements are in the even indices and the smaller elements are in the odd indices
+  printPairs(pairs);
 
   // sort the larger elements and ensure the smaller element of the pair stays with the larger element
   // e.g. 4, 3, 2, 1 -> 2, 1, 4, 3
-  const size_t left = 0;
-  const size_t right = pairs.size() - 1; // index of the last element
-  T largeSorted = _sortLarge(pairs, left, right);
+  const size_t firstIndex = 0;
+  const size_t lastIndex = pairs.size() - 1;
+  _sortLarge(pairs, firstIndex, lastIndex);
 
-  return largeSorted;
+  std::cout << "After sortLarge: ";
+  printPairs(pairs);
+
+  // sort the remaining elements
+  T sorted;
+  _sortRest(sorted, pairs, container, isOdd);
+
+  std::cout << "After sortRest : ";
+  printContainer(sorted);
+  return sorted;
 }
 
 template <typename T>
-void PmergeMe::_sortLarge(T& container, size_t left, size_t right) {
+void PmergeMe::_sortLarge(T& pairs, size_t left, size_t right) {
   // recursively merge sort the pairs of elements by the larger element
-  // does not check for odd number of elements, but the caller should only pass even number of elements
+  // assumes even number of elements
+  // assumes the elements are in pairs, e.g. (1, 2), (3, 4), ...
+  // assumes the odd index is the larger element of the pair
 
   // base case is when the left index is greater than the right index
   if (left >= right) {
@@ -152,9 +204,79 @@ void PmergeMe::_sortLarge(T& container, size_t left, size_t right) {
   }
 
   // find the middle index
-  size_t mid = container.size() / 2;
+  size_t middle = (left + right) / 2;
 
-  // TODO
+  // recursively sort the halves
+  _sortLarge(pairs, left, middle);
+  _sortLarge(pairs, middle + 1, right);
+
+  // merge the halves
+  T temp;
+  size_t i = left;
+  size_t j = middle + 1;
+  while (i <= middle && j <= right) {
+    if (pairs[i].first <= pairs[j].first) {
+      temp.push_back(pairs[i]);
+      i++;
+    } else {
+      temp.push_back(pairs[j]);
+      j++;
+    }
+  }
+
+  // copy the remaining elements
+  while (i <= middle) {
+    temp.push_back(pairs[i]);
+    i++;
+  }
+  while (j <= right) {
+    temp.push_back(pairs[j]);
+    j++;
+  }
+
+  // copy the sorted elements back to the original container
+  for (size_t k = left; k <= right; k++) {
+    pairs[k] = temp[k - left];
+  }
+}
+
+template <typename T, typename P>
+void PmergeMe::_sortRest(T& sortedRet, P& pairs, const T& input, bool isOdd) {
+  size_t k = pairs.size();
+
+  // first pair is the smallest, and it's second element is the smallest element
+  sortedRet.push_back(pairs[0].second);
+
+  // create the main chain from the larger elements
+  for (size_t i = 0; i < k; i++) {
+    sortedRet.push_back(pairs[i].first);
+  }
+
+  // insert elements as per ford-johnson up to k/2
+  for (size_t i = 2; i < k / 2; i += 2) {
+    _insert(sortedRet, pairs[i].second);
+    _insert(sortedRet, pairs[i - 1].second);
+  }
+  // FIXME: does not insert the second elements of the first two pairs
+
+  std::cout << "After insert k2: ";
+  printContainer(sortedRet);
+
+  // insert the remaining elements right to left, starting from the odd case
+  if (isOdd) {
+    // take into account the odd case
+    _insert(sortedRet, input.back());
+  }
+  for (size_t i = k - 1; i > k / 2; i--) {
+    _insert(sortedRet, pairs[i].second);
+  }
+}
+
+// binary insert
+template <typename T>
+void PmergeMe::_insert(T& dst, int value) {
+  auto it = std::lower_bound(dst.begin(), dst.end(), value);
+  dst.insert(it, value);
 }
 
 template <typename T>

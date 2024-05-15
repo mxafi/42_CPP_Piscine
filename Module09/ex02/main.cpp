@@ -9,7 +9,6 @@
   { std::cerr << RED << "Error (" << source << "): " << message << RESET << std::endl; }
 
 // TODO: OPTIMIZE: use std::move semantics
-// TODO: OPTIMIZE: use reserve() for containers
 // TODO: OPTIMIZE: use swap()
 // TODO: OPTIMIZE: reduce copying
 // TODO: OPTIMIZE: return by reference
