@@ -3,6 +3,9 @@
 template std::vector<int> PmergeMe::_sort(const std::vector<int>& container);
 template std::deque<int> PmergeMe::_sort(const std::deque<int>& container);
 
+template void PmergeMe::_sortLarge(std::vector<int>& container, size_t left, size_t right);
+template void PmergeMe::_sortLarge(std::deque<int>& container, size_t left, size_t right);
+
 template bool PmergeMe::_isSorted(const std::vector<int>& container);
 template bool PmergeMe::_isSorted(const std::deque<int>& container);
 
@@ -113,13 +116,45 @@ template <typename T>
 T PmergeMe::_sort(const T& container) {
   bool isOdd = container.size() % 2;
   std::cout << "isOdd: " << isOdd << std::endl;
-  size_t half_n = container.size() / 2;
+  size_t half_n = container.size() / 2;  // excludes the odd case
   std::cout << "half_n: " << half_n << std::endl;
 
   if (container.size() < 2) {
     return container;
   }
-  return container;
+
+  // form pairs excluding the odd case, e.g. 1, 2, 3, 4, 5 -> 2, 1, 4, 3
+  T pairs = container;
+  for (size_t i = 0; i < half_n * 2; i += 2) {
+    if (pairs[i] < pairs[i + 1]) {
+      std::swap(pairs[i], pairs[i + 1]);
+    }
+  }
+  // now the larger elements are in the even indices and the smaller elements are in the odd indices
+
+  // sort the larger elements and ensure the smaller element of the pair stays with the larger element
+  // e.g. 4, 3, 2, 1 -> 2, 1, 4, 3
+  const size_t left = 0;
+  const size_t right = pairs.size() - 1; // index of the last element
+  T largeSorted = _sortLarge(pairs, left, right);
+
+  return largeSorted;
+}
+
+template <typename T>
+void PmergeMe::_sortLarge(T& container, size_t left, size_t right) {
+  // recursively merge sort the pairs of elements by the larger element
+  // does not check for odd number of elements, but the caller should only pass even number of elements
+
+  // base case is when the left index is greater than the right index
+  if (left >= right) {
+    return;
+  }
+
+  // find the middle index
+  size_t mid = container.size() / 2;
+
+  // TODO
 }
 
 template <typename T>

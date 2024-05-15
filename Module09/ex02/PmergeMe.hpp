@@ -7,6 +7,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "color.h"
@@ -25,6 +26,9 @@ class PmergeMe {
 
   template <typename T>
   bool _isSorted(const T& container);
+
+  template <typename T>
+  void _sortLarge(T& container, size_t left, size_t right);
 
  public:
   ~PmergeMe();
