@@ -1,5 +1,8 @@
 #include "PmergeMe.hpp"
 
+template std::vector<int> PmergeMe::_sort(const std::vector<int>& container);
+template std::deque<int> PmergeMe::_sort(const std::deque<int>& container);
+
 PmergeMe::~PmergeMe() {}
 
 PmergeMe::PmergeMe() : _isLoaded(false) {}
@@ -79,6 +82,11 @@ void PmergeMe::run() {
       throw std::runtime_error("vector and deque elements do not match after sorting");
     }
   }
+  // for (size_t i = 0; i < sortedVec.size() - 1; i++) {
+  //   if (sortedVec[i] > sortedVec[i + 1]) {
+  //     throw std::runtime_error("containers are not sorted");
+  //   }
+  // }
 
   std::cout << YELLOW << "After : ";
   for (int i : sortedVec) {
@@ -94,6 +102,8 @@ void PmergeMe::run() {
 }
 
 template <typename T>
-T _sort(const T& container) {
+T PmergeMe::_sort(const T& container) {
   // TODO: implement sorting algorithm
+  T newcontainer(container);
+  return newcontainer;
 }
