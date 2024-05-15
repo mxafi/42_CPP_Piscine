@@ -23,6 +23,9 @@ class PmergeMe {
   template <typename T>
   T _sort(const T& container);
 
+  template <typename T>
+  bool _isSorted(const T& container);
+
  public:
   ~PmergeMe();
   PmergeMe();

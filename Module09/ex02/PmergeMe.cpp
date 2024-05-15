@@ -3,6 +3,9 @@
 template std::vector<int> PmergeMe::_sort(const std::vector<int>& container);
 template std::deque<int> PmergeMe::_sort(const std::deque<int>& container);
 
+template bool PmergeMe::_isSorted(const std::vector<int>& container);
+template bool PmergeMe::_isSorted(const std::deque<int>& container);
+
 PmergeMe::~PmergeMe() {}
 
 PmergeMe::PmergeMe() : _isLoaded(false) {}
@@ -58,6 +61,10 @@ void PmergeMe::run() {
     throw std::runtime_error("no data loaded");
   }
 
+  if (_isSorted(_inputVec)) {
+    throw std::runtime_error("input is already sorted");
+  }
+
   std::cout << YELLOW << "Before: ";
   for (int i : _inputVec) {
     std::cout << i << " ";
@@ -82,22 +89,10 @@ void PmergeMe::run() {
       throw std::runtime_error("vector and deque elements do not match after sorting");
     }
   }
-  bool vecSorted = true;
-  for (size_t i = 0; i < sortedVec.size() - 1; i++) {
-    if (sortedVec[i] > sortedVec[i + 1]) {
-      // throw std::runtime_error("containers are not sorted");
-      vecSorted = false;
-    }
-  }
+  bool vecSorted = _isSorted(sortedVec);
   if (!vecSorted)
     std::cout << MAGENTA << "Warning: vec not sorted" << RESET << std::endl;
-  bool deqSorted = true;
-  for (size_t i = 0; i < sortedDeq.size() - 1; i++) {
-    if (sortedDeq[i] > sortedDeq[i + 1]) {
-      // throw std::runtime_error("containers are not sorted");
-      deqSorted = false;
-    }
-  }
+  bool deqSorted = _isSorted(sortedDeq);
   if (!deqSorted)
     std::cout << MAGENTA << "Warning: deq not sorted" << RESET << std::endl;
 
@@ -116,7 +111,26 @@ void PmergeMe::run() {
 
 template <typename T>
 T PmergeMe::_sort(const T& container) {
-  // TODO: implement sorting algorithm
-  T newcontainer(container);
-  return newcontainer;
+  bool isOdd = container.size() % 2;
+  std::cout << "isOdd: " << isOdd << std::endl;
+  size_t half_n = container.size() / 2;
+  std::cout << "half_n: " << half_n << std::endl;
+
+  if (container.size() < 2) {
+    return container;
+  }
+  return container;
+}
+
+template <typename T>
+bool PmergeMe::_isSorted(const T& container) {
+  if (container.size() < 2) {
+    return true;
+  }
+  for (size_t i = 0; i < container.size() - 1; i++) {
+    if (container[i] > container[i + 1]) {
+      return false;
+    }
+  }
+  return true;
 }
