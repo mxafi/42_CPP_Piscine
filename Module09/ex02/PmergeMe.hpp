@@ -13,12 +13,15 @@
 
 class PmergeMe {
  private:
-  std::vector<int> _testVec;
-  std::deque<int> _testDeq;
+  std::vector<int> _inputVec;
+  std::deque<int> _inputDeq;
 
   bool _isLoaded;
   double _vecSortTimeUs;
   double _deqSortTimeUs;
+
+  template <typename T>
+  T _sort(const T& container);
 
  public:
   ~PmergeMe();
