@@ -1,14 +1,5 @@
 #include "PmergeMe.hpp"
 
-template std::vector<int> PmergeMe::_sort(const std::vector<int>& container);
-template std::deque<int> PmergeMe::_sort(const std::deque<int>& container);
-
-// template void PmergeMe::_sortLarge(std::vector<int>& container, size_t left, size_t right);
-// template void PmergeMe::_sortLarge(std::deque<int>& container, size_t left, size_t right);
-
-template bool PmergeMe::_isSorted(const std::vector<int>& container);
-template bool PmergeMe::_isSorted(const std::deque<int>& container);
-
 template <typename T, typename Alloc>
 struct PmergeMe::PairContainer<std::vector<T, Alloc> > {
   using type = std::vector<std::pair<int, int>, typename Alloc::template rebind<std::pair<int, int> >::other>;
@@ -20,33 +11,34 @@ struct PmergeMe::PairContainer<std::deque<T, Alloc> > {
 };
 
 // static utility functions
+// for debugging and visualization
 
-template <typename Pair>
-static void printPairs(const Pair& container) {
-  for (const auto& p : container) {
-    std::cout << p.first << "," << p.second << " ";
-  }
-  std::cout << std::endl;
-}
+// template <typename Pair>
+// static void printPairs(const Pair& container) {
+//   for (const auto& p : container) {
+//     std::cout << p.first << "," << p.second << " ";
+//   }
+//   std::cout << std::endl;
+// }
 
-template <typename Pair, typename Container>
-static Container unpair(const Pair& pairs) {
-  Container container;
-  size_t n = pairs.size();
-  for (size_t i = 0; i < n; i++) {
-    container.push_back(pairs[i].first);
-    container.push_back(pairs[i].second);
-  }
-  return container;
-}
+// template <typename Pair, typename Container>
+// static Container unpair(const Pair& pairs) {
+//   Container container;
+//   size_t n = pairs.size();
+//   for (size_t i = 0; i < n; i++) {
+//     container.push_back(pairs[i].first);
+//     container.push_back(pairs[i].second);
+//   }
+//   return container;
+// }
 
-template <typename T>
-static void printContainer(const T& container) {
-  for (int i : container) {
-    std::cout << i << " ";
-  }
-  std::cout << std::endl;
-}
+// template <typename T>
+// static void printContainer(const T& container) {
+//   for (int i : container) {
+//     std::cout << i << " ";
+//   }
+//   std::cout << std::endl;
+// }
 
 // end of static utility functions
 
