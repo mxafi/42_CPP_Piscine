@@ -171,7 +171,6 @@ T PmergeMe::_sort(const T& container) {
       pairs.push_back(std::make_pair(container[i + 1], container[i]));
     }
   }
-  printPairs(pairs);
 
   // sort the larger elements and ensure the smaller element of the pair stays with the larger element
   // e.g. 4, 3, 2, 1 -> 2, 1, 4, 3
@@ -179,15 +178,10 @@ T PmergeMe::_sort(const T& container) {
   const size_t lastIndex = pairs.size() - 1;
   _sortLarge(pairs, firstIndex, lastIndex);
 
-  std::cout << "After sortLarge: ";
-  printPairs(pairs);
-
   // sort the remaining elements
   T sorted;
   _sortRest(sorted, pairs, container, isOdd);
 
-  std::cout << "After sortRest : ";
-  printContainer(sorted);
   return sorted;
 }
 
@@ -253,21 +247,22 @@ void PmergeMe::_sortRest(T& sortedRet, P& pairs, const T& input, bool isOdd) {
   }
 
   // insert elements as per ford-johnson up to k/2
-  for (size_t i = 2; i < k / 2; i += 2) {
-    _insert(sortedRet, pairs[i].second);
-    _insert(sortedRet, pairs[i - 1].second);
+  for (size_t i = 1; i <= (k - 1) / 2; i++) {
+    if (i + 1 <= (k - 1) / 2) {
+      _insert(sortedRet, pairs[i + 1].second);
+      _insert(sortedRet, pairs[i].second);
+      i++;
+    } else {
+      _insert(sortedRet, pairs[i].second);
+    }
   }
-  // FIXME: does not insert the second elements of the first two pairs
-
-  std::cout << "After insert k2: ";
-  printContainer(sortedRet);
 
   // insert the remaining elements right to left, starting from the odd case
   if (isOdd) {
     // take into account the odd case
     _insert(sortedRet, input.back());
   }
-  for (size_t i = k - 1; i > k / 2; i--) {
+  for (size_t i = k - 1; i > (k - 1) / 2; i--) {
     _insert(sortedRet, pairs[i].second);
   }
 }
