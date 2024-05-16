@@ -19,6 +19,7 @@ class PmergeMe {
   std::deque<int> _inputDeq;
 
   bool _isLoaded;
+  bool _isRunFinished;
   double _vecSortTimeUs;
   double _deqSortTimeUs;
 

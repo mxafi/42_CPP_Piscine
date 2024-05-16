@@ -44,7 +44,7 @@ struct PmergeMe::PairContainer<std::deque<T, Alloc> > {
 
 PmergeMe::~PmergeMe() {}
 
-PmergeMe::PmergeMe() : _isLoaded(false) {}
+PmergeMe::PmergeMe() : _isLoaded(false), _isRunFinished(false) {}
 
 PmergeMe::PmergeMe(PmergeMe& other) {
   _inputVec = other._inputVec;
@@ -59,6 +59,7 @@ PmergeMe& PmergeMe::operator=(PmergeMe& other) {
     _inputVec = other._inputVec;
     _inputDeq = other._inputDeq;
     _isLoaded = other._isLoaded;
+    _isRunFinished = other._isRunFinished;
     _vecSortTimeUs = other._vecSortTimeUs;
     _deqSortTimeUs = other._deqSortTimeUs;
   }
@@ -71,9 +72,13 @@ void PmergeMe::reset() {
   _vecSortTimeUs = 0.0;
   _deqSortTimeUs = 0.0;
   _isLoaded = false;
+  _isRunFinished = false;
 }
 
 void PmergeMe::load(int ac, char** av) {
+  if (_isLoaded) {
+    throw std::runtime_error("data already loaded");
+  }
   for (int i = 1; i < ac; i++) {
     int num = 0;
     try {
@@ -96,7 +101,10 @@ void PmergeMe::run() {
   if (!_isLoaded) {
     throw std::runtime_error("no data loaded");
   }
-
+  if (_isRunFinished) {
+    throw std::runtime_error("run already finished");
+  }
+  _isRunFinished = true;
   if (_isSorted(_inputVec)) {
     throw std::runtime_error("input is already sorted");
   }
