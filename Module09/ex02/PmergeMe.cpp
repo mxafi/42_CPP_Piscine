@@ -134,11 +134,13 @@ void PmergeMe::run() {
     }
   }
   bool vecSorted = _isSorted(sortedVec);
-  if (!vecSorted)
-    std::cout << MAGENTA << "Warning: vec not sorted" << RESET << std::endl;
+  if (!vecSorted) {
+    throw std::runtime_error("vec not sorted");
+  }
   bool deqSorted = _isSorted(sortedDeq);
-  if (!deqSorted)
-    std::cout << MAGENTA << "Warning: deq not sorted" << RESET << std::endl;
+  if (!deqSorted) {
+    throw std::runtime_error("deq not sorted");
+  }
 
   std::cout << YELLOW << "After : ";
   for (int i : sortedVec) {
